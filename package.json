@@ -1,0 +1,18 @@
+{
+  "name": "asapp_challenge",
+  "version": "1.0.0",
+  "description": "asapp_challenge",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lijiahao008/ASAPP_Challenge.git"
+  },
+  "author": "Jay Li",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lijiahao008/ASAPP_Challenge/issues"
+  },
+  "homepage": "https://github.com/lijiahao008/ASAPP_Challenge#readme"
+}
