@@ -6,7 +6,7 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-
+    this.props.fetchMessages(this.props.userId);
   }
 
   componentWillUnmount(){
@@ -14,7 +14,10 @@ class Chat extends React.Component {
   }
 
   render () {
-
+    if (this.props.loading) {
+      debugger
+      return <div>loading</div>
+    }
     return (
       <div>
         <h1>Chat</h1>

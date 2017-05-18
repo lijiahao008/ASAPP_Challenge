@@ -21859,13 +21859,9 @@
 	
 	var _app2 = _interopRequireDefault(_app);
 	
-	var _chat = __webpack_require__(271);
-	
-	var _chat2 = _interopRequireDefault(_chat);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// react components
+	// react router
 	var Root = function Root(_ref) {
 	  var store = _ref.store;
 	
@@ -21876,16 +21872,12 @@
 	    _react2.default.createElement(
 	      _reactRouter.Router,
 	      { history: _reactRouter.hashHistory },
-	      _react2.default.createElement(
-	        _reactRouter.Route,
-	        { path: '/', component: _app2.default },
-	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _chat2.default })
-	      )
+	      _react2.default.createElement(_reactRouter.Route, { path: '/', component: _app2.default })
 	    )
 	  );
 	};
 	
-	// react router
+	// react components
 	exports.default = Root;
 
 /***/ }),
@@ -29403,6 +29395,10 @@
 	
 	var _reactRouter = __webpack_require__(215);
 	
+	var _chat_container = __webpack_require__(279);
+	
+	var _chat_container2 = _interopRequireDefault(_chat_container);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var App = function App(_ref) {
@@ -29410,6 +29406,7 @@
 	  return _react2.default.createElement(
 	    'main',
 	    null,
+	    _react2.default.createElement(_chat_container2.default, { userId: 1 }),
 	    children
 	  );
 	};
@@ -29451,14 +29448,23 @@
 	
 	  _createClass(Chat, [{
 	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
+	    value: function componentDidMount() {
+	      this.props.fetchMessages(this.props.userId);
+	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {}
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	
+	      if (this.props.loading) {
+	        debugger;
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'loading'
+	        );
+	      }
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -29522,10 +29528,15 @@
 	
 	var _messages_reducer2 = _interopRequireDefault(_messages_reducer);
 	
+	var _loading_reducer = __webpack_require__(278);
+	
+	var _loading_reducer2 = _interopRequireDefault(_loading_reducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var RootReducer = (0, _redux.combineReducers)({
-	  messages: _messages_reducer2.default
+	  messages: _messages_reducer2.default,
+	  loading: _loading_reducer2.default
 	});
 	
 	exports.default = RootReducer;
@@ -29566,7 +29577,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.fetchMessages = exports.receiveAllMessages = exports.RECEIVE_ALL_MESSAGES = undefined;
+	exports.fetchMessages = exports.loadingAllMessages = exports.receiveAllMessages = exports.LOADING_ALL_MESSAGES = exports.RECEIVE_ALL_MESSAGES = undefined;
 	
 	var _message_api_utils = __webpack_require__(277);
 	
@@ -29576,6 +29587,8 @@
 	
 	var RECEIVE_ALL_MESSAGES = exports.RECEIVE_ALL_MESSAGES = "RECEIVE_ALL_MESSAGES";
 	
+	var LOADING_ALL_MESSAGES = exports.LOADING_ALL_MESSAGES = "LOADING_ALL_MESSAGES";
+	
 	var receiveAllMessages = exports.receiveAllMessages = function receiveAllMessages(messages) {
 	  return {
 	    type: RECEIVE_ALL_MESSAGES,
@@ -29583,8 +29596,15 @@
 	  };
 	};
 	
+	var loadingAllMessages = exports.loadingAllMessages = function loadingAllMessages() {
+	  return {
+	    type: LOADING_ALL_MESSAGES
+	  };
+	};
+	
 	var fetchMessages = exports.fetchMessages = function fetchMessages(id) {
 	  return function (dispatch) {
+	    dispatch(loadingAllMessages());
 	    return APIUtil.fetchMessages(id).then(function (messages) {
 	      return dispatch(receiveAllMessages(messages));
 	    });
@@ -29623,8 +29643,87 @@
 /* 277 */
 /***/ (function(module, exports) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	//Normally this would be the place to write ajax calls to the backend. But for the popurse of this challenge, I only used calls to pusher here.
-	"use strict";
+	
+	var fetchMessages = exports.fetchMessages = function fetchMessages(userId) {
+	  return $.ajax({
+	    method: 'GET',
+	    url: 'http://www.randomtext.me/api/'
+	  });
+	  // This should return an ajax call to the backend server.
+	};
+
+/***/ }),
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _message_actions = __webpack_require__(275);
+	
+	var LoadingReducer = function LoadingReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _message_actions.LOADING_ALL_MESSAGES:
+	      return true;
+	    case _message_actions.RECEIVE_ALL_MESSAGES:
+	      return false;
+	    default:
+	      return false;
+	  }
+	};
+	
+	exports.default = LoadingReducer;
+
+/***/ }),
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(183);
+	
+	var _chat = __webpack_require__(271);
+	
+	var _chat2 = _interopRequireDefault(_chat);
+	
+	var _message_actions = __webpack_require__(275);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    loading: state.loading,
+	    messages: state.messages,
+	    userId: ownProps.userId
+	    //userId is supposed to be from the session reducer where contains the current user's information. But for the popurse of this challenge, I'm manully assigning an id to the component
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchMessages: function fetchMessages(userId) {
+	      return dispatch((0, _message_actions.fetchMessages)(userId));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_chat2.default);
 
 /***/ })
 /******/ ]);

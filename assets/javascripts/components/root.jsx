@@ -6,7 +6,6 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 // react components
 import App from './app';
-import Chat from './chat';
 
 
 const Root = ({ store }) => {
@@ -15,7 +14,6 @@ const Root = ({ store }) => {
     <Provider store={store}>
       <Router history={hashHistory}>
         <Route path="/" component={App}>
-          <IndexRoute component={Chat} />
         </Route>
       </Router>
     </Provider>
