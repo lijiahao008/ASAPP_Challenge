@@ -4,7 +4,7 @@ module.exports = {
   context: __dirname,
   entry: "./assets/javascripts/asapp_challenge.jsx",
   output: {
-    path: path.join(__dirname, 'bundle'),
+    path: path.join(__dirname, 'assets', 'javascripts'),
     filename: "bundle.js"
   },
   module: {

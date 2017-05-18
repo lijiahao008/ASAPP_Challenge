@@ -24,6 +24,7 @@
     "lodash": "^4.15.0",
     "moment": "*",
     "prop-types": "^15.5.0",
+    "pusher": "^1.5.1",
     "react": "^15.5.0",
     "react-addons-shallow-compare": "^15.5.2",
     "react-dates": "*",

@@ -68,6 +68,7 @@
 	//React
 	document.addEventListener('DOMContentLoaded', function () {
 	  var store = (0, _store2.default)();
+	  window.store = store;
 	  var root = document.getElementById('root');
 	  _reactDom2.default.render(_react2.default.createElement(_root2.default, { store: store }), root);
 	});
@@ -29491,7 +29492,7 @@
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _reduxThunk = __webpack_require__(275);
+	var _reduxThunk = __webpack_require__(276);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
@@ -29531,12 +29532,67 @@
 
 /***/ }),
 /* 274 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _message_actions = __webpack_require__(275);
+	
+	var MessagesReducer = function MessagesReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  Object.freeze(state);
+	  switch (action.type) {
+	    case _message_actions.RECEIVE_ALL_MESSAGES:
+	      return action.messages;
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = MessagesReducer;
 
 /***/ }),
 /* 275 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchMessages = exports.receiveAllMessages = exports.RECEIVE_ALL_MESSAGES = undefined;
+	
+	var _message_api_utils = __webpack_require__(277);
+	
+	var APIUtil = _interopRequireWildcard(_message_api_utils);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	var RECEIVE_ALL_MESSAGES = exports.RECEIVE_ALL_MESSAGES = "RECEIVE_ALL_MESSAGES";
+	
+	var receiveAllMessages = exports.receiveAllMessages = function receiveAllMessages(messages) {
+	  return {
+	    type: RECEIVE_ALL_MESSAGES,
+	    messages: messages
+	  };
+	};
+	
+	var fetchMessages = exports.fetchMessages = function fetchMessages(id) {
+	  return function (dispatch) {
+	    return APIUtil.fetchMessages(id).then(function (messages) {
+	      return dispatch(receiveAllMessages(messages));
+	    });
+	  };
+	};
+
+/***/ }),
+/* 276 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -29562,6 +29618,13 @@
 	thunk.withExtraArgument = createThunkMiddleware;
 	
 	exports['default'] = thunk;
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports) {
+
+	//Normally this would be the place to write ajax calls to the backend. But for the popurse of this challenge, I only used calls to pusher here.
+	"use strict";
 
 /***/ })
 /******/ ]);
