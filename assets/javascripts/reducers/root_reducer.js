@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux';
 
-import MessagesReducer from './messages_reducer';
 import LoadingReducer from './loading_reducer';
+import ConversationReducer from './conversation_reducer';
+import CurrentConversationReducer from './current_conversation_reducer';
 
 
 const RootReducer = combineReducers({
-  messages: MessagesReducer,
+  conversations: ConversationReducer,
+  current_conversation: CurrentConversationReducer,
   loading: LoadingReducer
 });
 

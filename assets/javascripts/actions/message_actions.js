@@ -1,20 +1,20 @@
 import * as APIUtil from '../util/message_api_utils'
 
-export const RECEIVE_ALL_MESSAGES = "RECEIVE_ALL_MESSAGES";
+export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
+export const TYPING_MESSAGE = "TYPING_MESSAGE";
 
-export const LOADING_ALL_MESSAGES = "LOADING_ALL_MESSAGES";
 
-export const receiveAllMessages = messages => ({
-  type: RECEIVE_ALL_MESSAGES,
-  messages
+export const receiveMessage = message => ({
+  type: RECEIVE_MESSAGE,
+  message
 });
 
-export const loadingAllMessages = () => ({
-  type: LOADING_ALL_MESSAGES
+export const typingMessage = () => ({
+  type: TYPING_MESSAGE
 });
 
-export const fetchMessages = (id) => dispatch => {
-  dispatch(loadingAllMessages());
-  return APIUtil.fetchMessages(id)
-  .then(messages => dispatch(receiveAllMessages(messages)))
+
+export const sendMessage = (message) => dispatch => {
+  return APIUtil.sendMessage(message)
+  .then(message => dispatch(receiveMessage(message)))
 };

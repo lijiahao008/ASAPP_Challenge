@@ -1,13 +1,22 @@
-import { RECEIVE_ALL_MESSAGES, LOADING_ALL_MESSAGES } from '../actions/message_actions';
+import { RECEIVE_ALL_CONVERSATIONS, LOADING_ALL_CONVERSATIONS, RECEIVE_CURRENT_CONVERSATION, LOADING_CURRENT_CONVERSATION } from '../actions/conversation_actions';
 
-const LoadingReducer = (state=false, action) => {
+const initialState = {
+  loadingAllConversations: false,
+  loadingCurrentConversation: false
+};
+
+const LoadingReducer = (state=initialState, action) => {
+  Object.freeze(state);
   switch (action.type){
-    case LOADING_ALL_MESSAGES:
-      return true;
-    case RECEIVE_ALL_MESSAGES:
-      return false;
+    case LOADING_ALL_CONVERSATIONS:
+      return Object.assign({}, state, { loadingAllConversations: true });
+    case LOADING_CURRENT_CONVERSATION:
+      return Object.assign({}, state, { loadingCurrentConversation: true });
+    case RECEIVE_ALL_CONVERSATIONS:
+    case RECEIVE_CURRENT_CONVERSATION:
+      return initialState;
     default:
-      return false;
+      return state;
   }
 };
 
