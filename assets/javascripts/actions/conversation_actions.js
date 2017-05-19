@@ -29,8 +29,10 @@ export const loadingAllConversations = () => ({
 
 export const fetchCurrentConversation = (id) => dispatch => {
   dispatch(loadingCurrentConversation());
-  return APIUtil.fetchConversation(id)
-  .then(conversation => dispatch(receiveCurrentConversation(conversation)))
+  // return APIUtil.fetchConversation(id)
+  // .then(conversation => dispatch(receiveCurrentConversation(conversation)))
+  const conversation = APIUtil.fetchConversation(id);
+  dispatch(receiveCurrentConversation(conversation));
 };
 
 export const fetchAllConversations = () => dispatch => {

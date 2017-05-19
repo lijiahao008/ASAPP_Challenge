@@ -17,7 +17,8 @@ class Conversations extends React.Component {
     return (
       <ul>
         {this.props.conversations.map((conversation)=>(
-          <li key={conversation.id}>{conversation.title} {conversation.last_reply}</li>
+          <li key={conversation.id}
+            onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>{conversation.title} {conversation.last_reply}</li>
         ))}
       </ul>
     );

@@ -12,20 +12,35 @@ const conversations = {
             last_reply: "Second hello"
           }}
 
-const current_conversation = {conversation: {
+const conversation = {
           1: {
             id: 1,
             title: "Introduction",
-            body: "This is a body",
-            last_reply: "Hello"
-          }}}
+            messages: [{id: 1, sender: "Bob", body: "This is a body"}, {id: 2, sender: "Alice", body: "This is the second body"}]
+          },
+          2: {
+            id: 2,
+            title: "Second Introduction",
+            messages: [{id: 3, sender: "Alice", body: "This is the body of id 2"}, {id: 4, sender: "John", body: "This is the second body"}]
+          }
+        }
 
 
 export const fetchAllConversations = () => {
   // return $.ajax({
   //   method: 'GET',
+  //   url: `/api/conversations`
+  // });
+  // This should return an ajax call to the backend server.
+  setTimeout(console.log("yes"), 3000);
+  return conversations;
+};
+
+export const fetchConversation = (id) => {
+  // return $.ajax({
+  //   method: 'GET',
   //   url: `http://www.randomtext.me/api/`
   // });
   // This should return an ajax call to the backend server.
-  return conversations;
+  return conversation[id];
 };

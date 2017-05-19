@@ -1,22 +1,21 @@
 import { connect } from 'react-redux';
-import Conversations from './conversations';
-import { fetchAllConversations, fetchCurrentConversation } from '../actions/conversation_actions';
+import CurrentConversation from './current_conversation';
+import { fetchCurrentConversation } from '../actions/conversation_actions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    loading: state.loading.loadingAllConversations,
-    conversations: Object.keys(state.conversations).map((id)=>(state.conversations[id]))
+    loading: state.loading.loadingCurrentConversation,
+    messages: state.current_conversation.messages || []
     //userId is supposed to be from the session reducer where contains the current user's information. But for the popurse of this challenge, I'm manully assigning an id to the component
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-  fetchAllConversations: () => dispatch(fetchAllConversations()),
   fetchCurrentConversation: (id) => dispatch(fetchCurrentConversation(id))
 }};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Conversations);
+)(CurrentConversation);

@@ -1,6 +1,6 @@
 import React from 'react';
 import ConversationsContainer from './conversations_container';
-// import CurrentConversation from './current_conversation';
+import CurrentConversationContainer from './current_conversation_container';
 
 class Chat extends React.Component {
   constructor(props){
@@ -11,7 +11,12 @@ class Chat extends React.Component {
     return (
       <div>
         <h1>Chat</h1>
-        <ConversationsContainer />
+        <div>
+          <ConversationsContainer />
+        </div>
+        <div>
+          <CurrentConversationContainer />
+        </div>
       </div>
     );
   }

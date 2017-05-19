@@ -58,7 +58,7 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(272);
+	var _store = __webpack_require__(278);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
@@ -29429,9 +29429,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _conversations_container = __webpack_require__(371);
+	var _conversations_container = __webpack_require__(272);
 	
 	var _conversations_container2 = _interopRequireDefault(_conversations_container);
+	
+	var _current_conversation_container = __webpack_require__(276);
+	
+	var _current_conversation_container2 = _interopRequireDefault(_current_conversation_container);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29440,8 +29444,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	// import CurrentConversation from './current_conversation';
 	
 	var Chat = function (_React$Component) {
 	  _inherits(Chat, _React$Component);
@@ -29463,7 +29465,16 @@
 	          null,
 	          'Chat'
 	        ),
-	        _react2.default.createElement(_conversations_container2.default, null)
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_conversations_container2.default, null)
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_current_conversation_container2.default, null)
+	        )
 	      );
 	    }
 	  }]);
@@ -29483,25 +29494,38 @@
 	  value: true
 	});
 	
-	var _redux = __webpack_require__(192);
+	var _reactRedux = __webpack_require__(183);
 	
-	var _root_reducer = __webpack_require__(273);
+	var _conversations = __webpack_require__(273);
 	
-	var _root_reducer2 = _interopRequireDefault(_root_reducer);
+	var _conversations2 = _interopRequireDefault(_conversations);
 	
-	var _reduxThunk = __webpack_require__(276);
-	
-	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+	var _conversation_actions = __webpack_require__(274);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	;
-	var configureStore = function configureStore() {
-	  var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  return (0, _redux.createStore)(_root_reducer2.default, preloadedState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    loading: state.loading.loadingAllConversations,
+	    conversations: Object.keys(state.conversations).map(function (id) {
+	      return state.conversations[id];
+	    })
+	    //userId is supposed to be from the session reducer where contains the current user's information. But for the popurse of this challenge, I'm manully assigning an id to the component
+	  };
 	};
 	
-	exports.default = configureStore;
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchAllConversations: function fetchAllConversations() {
+	      return dispatch((0, _conversation_actions.fetchAllConversations)());
+	    },
+	    fetchCurrentConversation: function fetchCurrentConversation(id) {
+	      return dispatch((0, _conversation_actions.fetchCurrentConversation)(id));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_conversations2.default);
 
 /***/ }),
 /* 273 */
@@ -29513,193 +29537,73 @@
 	  value: true
 	});
 	
-	var _redux = __webpack_require__(192);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _loading_reducer = __webpack_require__(278);
+	var _react = __webpack_require__(1);
 	
-	var _loading_reducer2 = _interopRequireDefault(_loading_reducer);
-	
-	var _conversation_reducer = __webpack_require__(280);
-	
-	var _conversation_reducer2 = _interopRequireDefault(_conversation_reducer);
-	
-	var _current_conversation_reducer = __webpack_require__(370);
-	
-	var _current_conversation_reducer2 = _interopRequireDefault(_current_conversation_reducer);
+	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var RootReducer = (0, _redux.combineReducers)({
-	  conversations: _conversation_reducer2.default,
-	  current_conversation: _current_conversation_reducer2.default,
-	  loading: _loading_reducer2.default
-	});
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	exports.default = RootReducer;
-
-/***/ }),
-/* 274 */,
-/* 275 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.sendMessage = exports.typingMessage = exports.receiveMessage = exports.TYPING_MESSAGE = exports.RECEIVE_MESSAGE = undefined;
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var _message_api_utils = __webpack_require__(277);
+	var Conversations = function (_React$Component) {
+	  _inherits(Conversations, _React$Component);
 	
-	var APIUtil = _interopRequireWildcard(_message_api_utils);
+	  function Conversations(props) {
+	    _classCallCheck(this, Conversations);
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	var RECEIVE_MESSAGE = exports.RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
-	var TYPING_MESSAGE = exports.TYPING_MESSAGE = "TYPING_MESSAGE";
-	
-	var receiveMessage = exports.receiveMessage = function receiveMessage(message) {
-	  return {
-	    type: RECEIVE_MESSAGE,
-	    message: message
-	  };
-	};
-	
-	var typingMessage = exports.typingMessage = function typingMessage() {
-	  return {
-	    type: TYPING_MESSAGE
-	  };
-	};
-	
-	var sendMessage = exports.sendMessage = function sendMessage(message) {
-	  return function (dispatch) {
-	    return APIUtil.sendMessage(message).then(function (message) {
-	      return dispatch(receiveMessage(message));
-	    });
-	  };
-	};
-
-/***/ }),
-/* 276 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	function createThunkMiddleware(extraArgument) {
-	  return function (_ref) {
-	    var dispatch = _ref.dispatch,
-	        getState = _ref.getState;
-	    return function (next) {
-	      return function (action) {
-	        if (typeof action === 'function') {
-	          return action(dispatch, getState, extraArgument);
-	        }
-	
-	        return next(action);
-	      };
-	    };
-	  };
-	}
-	
-	var thunk = createThunkMiddleware();
-	thunk.withExtraArgument = createThunkMiddleware;
-	
-	exports['default'] = thunk;
-
-/***/ }),
-/* 277 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	//Normally this would be the place to write ajax calls to the backend. But for the popurse of this challenge, I only used calls to pusher here.
-	
-	var fetchMessages = exports.fetchMessages = function fetchMessages(userId) {
-	  return $.ajax({
-	    method: 'GET',
-	    url: 'http://www.randomtext.me/api/'
-	  });
-	  // This should return an ajax call to the backend server.
-	};
-
-/***/ }),
-/* 278 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _conversation_actions = __webpack_require__(281);
-	
-	var initialState = {
-	  loadingAllConversations: false,
-	  loadingCurrentConversation: false
-	};
-	
-	var LoadingReducer = function LoadingReducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
-	
-	  Object.freeze(state);
-	  switch (action.type) {
-	    case _conversation_actions.LOADING_ALL_CONVERSATIONS:
-	      return Object.assign({}, state, { loadingAllConversations: true });
-	    case _conversation_actions.LOADING_CURRENT_CONVERSATION:
-	      return Object.assign({}, state, { loadingCurrentConversation: true });
-	    case _conversation_actions.RECEIVE_ALL_CONVERSATIONS:
-	    case _conversation_actions.RECEIVE_CURRENT_CONVERSATION:
-	      return initialState;
-	    default:
-	      return state;
+	    return _possibleConstructorReturn(this, (Conversations.__proto__ || Object.getPrototypeOf(Conversations)).call(this, props));
 	  }
-	};
 	
-	exports.default = LoadingReducer;
+	  _createClass(Conversations, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.fetchAllConversations();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      if (this.props.loading) {
+	        debugger;
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'loading'
+	        );
+	      }
+	      return _react2.default.createElement(
+	        'ul',
+	        null,
+	        this.props.conversations.map(function (conversation) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: conversation.id,
+	              onClick: function onClick() {
+	                return _this2.props.fetchCurrentConversation(conversation.id);
+	              } },
+	            conversation.title,
+	            ' ',
+	            conversation.last_reply
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return Conversations;
+	}(_react2.default.Component);
+	
+	exports.default = Conversations;
 
 /***/ }),
-/* 279 */,
-/* 280 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _conversation_actions = __webpack_require__(281);
-	
-	var _merge = __webpack_require__(283);
-	
-	var _merge2 = _interopRequireDefault(_merge);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ConversationReducer = function ConversationReducer() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var action = arguments[1];
-	
-	  Object.freeze(state);
-	  var newState = (0, _merge2.default)({}, state);
-	  switch (action.type) {
-	    case _conversation_actions.RECEIVE_ALL_CONVERSATIONS:
-	      return Object.assign(newState, action.conversations);
-	    default:
-	      return state;
-	  }
-	};
-	
-	exports.default = ConversationReducer;
-
-/***/ }),
-/* 281 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29709,7 +29613,7 @@
 	});
 	exports.fetchAllConversations = exports.fetchCurrentConversation = exports.loadingAllConversations = exports.receiveAllConversations = exports.loadingCurrentConversation = exports.receiveCurrentConversation = exports.LOADING_ALL_CONVERSATIONS = exports.RECEIVE_ALL_CONVERSATIONS = exports.LOADING_CURRENT_CONVERSATION = exports.RECEIVE_CURRENT_CONVERSATION = undefined;
 	
-	var _conversation_api_utils = __webpack_require__(282);
+	var _conversation_api_utils = __webpack_require__(275);
 	
 	var APIUtil = _interopRequireWildcard(_conversation_api_utils);
 	
@@ -29749,9 +29653,10 @@
 	var fetchCurrentConversation = exports.fetchCurrentConversation = function fetchCurrentConversation(id) {
 	  return function (dispatch) {
 	    dispatch(loadingCurrentConversation());
-	    return APIUtil.fetchConversation(id).then(function (conversation) {
-	      return dispatch(receiveCurrentConversation(conversation));
-	    });
+	    // return APIUtil.fetchConversation(id)
+	    // .then(conversation => dispatch(receiveCurrentConversation(conversation)))
+	    var conversation = APIUtil.fetchConversation(id);
+	    dispatch(receiveCurrentConversation(conversation));
 	  };
 	};
 	
@@ -29767,7 +29672,7 @@
 	};
 
 /***/ }),
-/* 282 */
+/* 275 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -29789,29 +29694,283 @@
 	    last_reply: "Second hello"
 	  } };
 	
-	var current_conversation = { conversation: {
-	    1: {
-	      id: 1,
-	      title: "Introduction",
-	      body: "This is a body",
-	      last_reply: "Hello"
-	    } } };
+	var conversation = {
+	  1: {
+	    id: 1,
+	    title: "Introduction",
+	    messages: [{ id: 1, sender: "Bob", body: "This is a body" }, { id: 2, sender: "Alice", body: "This is the second body" }]
+	  },
+	  2: {
+	    id: 2,
+	    title: "Second Introduction",
+	    messages: [{ id: 3, sender: "Alice", body: "This is the body of id 2" }, { id: 4, sender: "John", body: "This is the second body" }]
+	  }
+	};
 	
 	var fetchAllConversations = exports.fetchAllConversations = function fetchAllConversations() {
+	  // return $.ajax({
+	  //   method: 'GET',
+	  //   url: `/api/conversations`
+	  // });
+	  // This should return an ajax call to the backend server.
+	  setTimeout(console.log("yes"), 3000);
+	  return conversations;
+	};
+	
+	var fetchConversation = exports.fetchConversation = function fetchConversation(id) {
 	  // return $.ajax({
 	  //   method: 'GET',
 	  //   url: `http://www.randomtext.me/api/`
 	  // });
 	  // This should return an ajax call to the backend server.
-	  return conversations;
+	  return conversation[id];
 	};
 
 /***/ }),
-/* 283 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseMerge = __webpack_require__(284),
-	    createAssigner = __webpack_require__(358);
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(183);
+	
+	var _current_conversation = __webpack_require__(277);
+	
+	var _current_conversation2 = _interopRequireDefault(_current_conversation);
+	
+	var _conversation_actions = __webpack_require__(274);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(state, ownProps) {
+	  return {
+	    loading: state.loading.loadingCurrentConversation,
+	    messages: state.current_conversation.messages || []
+	    //userId is supposed to be from the session reducer where contains the current user's information. But for the popurse of this challenge, I'm manully assigning an id to the component
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchCurrentConversation: function fetchCurrentConversation(id) {
+	      return dispatch((0, _conversation_actions.fetchCurrentConversation)(id));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_current_conversation2.default);
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var CurrentConversation = function (_React$Component) {
+	  _inherits(CurrentConversation, _React$Component);
+	
+	  function CurrentConversation(props) {
+	    _classCallCheck(this, CurrentConversation);
+	
+	    return _possibleConstructorReturn(this, (CurrentConversation.__proto__ || Object.getPrototypeOf(CurrentConversation)).call(this, props));
+	  }
+	
+	  _createClass(CurrentConversation, [{
+	    key: 'render',
+	    value: function render() {
+	      debugger;
+	      if (this.props.loading) {
+	        debugger;
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'loading'
+	        );
+	      }
+	      return _react2.default.createElement(
+	        'ul',
+	        null,
+	        this.props.messages.map(function (message) {
+	          return _react2.default.createElement(
+	            'li',
+	            { key: message.id },
+	            message.sender,
+	            ' ',
+	            message.body
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return CurrentConversation;
+	}(_react2.default.Component);
+	
+	exports.default = CurrentConversation;
+
+/***/ }),
+/* 278 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(192);
+	
+	var _root_reducer = __webpack_require__(279);
+	
+	var _root_reducer2 = _interopRequireDefault(_root_reducer);
+	
+	var _reduxThunk = __webpack_require__(370);
+	
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	;
+	var configureStore = function configureStore() {
+	  var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  return (0, _redux.createStore)(_root_reducer2.default, preloadedState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+	};
+	
+	exports.default = configureStore;
+
+/***/ }),
+/* 279 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(192);
+	
+	var _loading_reducer = __webpack_require__(280);
+	
+	var _loading_reducer2 = _interopRequireDefault(_loading_reducer);
+	
+	var _conversation_reducer = __webpack_require__(281);
+	
+	var _conversation_reducer2 = _interopRequireDefault(_conversation_reducer);
+	
+	var _current_conversation_reducer = __webpack_require__(367);
+	
+	var _current_conversation_reducer2 = _interopRequireDefault(_current_conversation_reducer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var RootReducer = (0, _redux.combineReducers)({
+	  conversations: _conversation_reducer2.default,
+	  current_conversation: _current_conversation_reducer2.default,
+	  loading: _loading_reducer2.default
+	});
+	
+	exports.default = RootReducer;
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _conversation_actions = __webpack_require__(274);
+	
+	var initialState = {
+	  loadingAllConversations: false,
+	  loadingCurrentConversation: false
+	};
+	
+	var LoadingReducer = function LoadingReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+	  var action = arguments[1];
+	
+	  Object.freeze(state);
+	  switch (action.type) {
+	    case _conversation_actions.LOADING_ALL_CONVERSATIONS:
+	      return Object.assign({}, state, { loadingAllConversations: true });
+	    case _conversation_actions.LOADING_CURRENT_CONVERSATION:
+	      return Object.assign({}, state, { loadingCurrentConversation: true });
+	    case _conversation_actions.RECEIVE_ALL_CONVERSATIONS:
+	    case _conversation_actions.RECEIVE_CURRENT_CONVERSATION:
+	      return initialState;
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = LoadingReducer;
+
+/***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _conversation_actions = __webpack_require__(274);
+	
+	var _merge = __webpack_require__(282);
+	
+	var _merge2 = _interopRequireDefault(_merge);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ConversationReducer = function ConversationReducer() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  Object.freeze(state);
+	  var newState = (0, _merge2.default)({}, state);
+	  switch (action.type) {
+	    case _conversation_actions.RECEIVE_ALL_CONVERSATIONS:
+	      return Object.assign(newState, action.conversations);
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = ConversationReducer;
+
+/***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var baseMerge = __webpack_require__(283),
+	    createAssigner = __webpack_require__(357);
 	
 	/**
 	 * This method is like `_.assign` except that it recursively merges own and
@@ -29852,15 +30011,15 @@
 
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Stack = __webpack_require__(285),
-	    assignMergeValue = __webpack_require__(323),
-	    baseFor = __webpack_require__(326),
-	    baseMergeDeep = __webpack_require__(328),
-	    isObject = __webpack_require__(303),
-	    keysIn = __webpack_require__(352);
+	var Stack = __webpack_require__(284),
+	    assignMergeValue = __webpack_require__(322),
+	    baseFor = __webpack_require__(325),
+	    baseMergeDeep = __webpack_require__(327),
+	    isObject = __webpack_require__(302),
+	    keysIn = __webpack_require__(351);
 	
 	/**
 	 * The base implementation of `_.merge` without support for multiple sources.
@@ -29899,15 +30058,15 @@
 
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var ListCache = __webpack_require__(286),
-	    stackClear = __webpack_require__(294),
-	    stackDelete = __webpack_require__(295),
-	    stackGet = __webpack_require__(296),
-	    stackHas = __webpack_require__(297),
-	    stackSet = __webpack_require__(298);
+	var ListCache = __webpack_require__(285),
+	    stackClear = __webpack_require__(293),
+	    stackDelete = __webpack_require__(294),
+	    stackGet = __webpack_require__(295),
+	    stackHas = __webpack_require__(296),
+	    stackSet = __webpack_require__(297);
 	
 	/**
 	 * Creates a stack cache object to store key-value pairs.
@@ -29932,14 +30091,14 @@
 
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var listCacheClear = __webpack_require__(287),
-	    listCacheDelete = __webpack_require__(288),
-	    listCacheGet = __webpack_require__(291),
-	    listCacheHas = __webpack_require__(292),
-	    listCacheSet = __webpack_require__(293);
+	var listCacheClear = __webpack_require__(286),
+	    listCacheDelete = __webpack_require__(287),
+	    listCacheGet = __webpack_require__(290),
+	    listCacheHas = __webpack_require__(291),
+	    listCacheSet = __webpack_require__(292);
 	
 	/**
 	 * Creates an list cache object.
@@ -29970,7 +30129,7 @@
 
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports) {
 
 	/**
@@ -29989,10 +30148,10 @@
 
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(289);
+	var assocIndexOf = __webpack_require__(288);
 	
 	/** Used for built-in method references. */
 	var arrayProto = Array.prototype;
@@ -30030,10 +30189,10 @@
 
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(290);
+	var eq = __webpack_require__(289);
 	
 	/**
 	 * Gets the index at which the `key` is found in `array` of key-value pairs.
@@ -30057,7 +30216,7 @@
 
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30100,10 +30259,10 @@
 
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(289);
+	var assocIndexOf = __webpack_require__(288);
 	
 	/**
 	 * Gets the list cache value for `key`.
@@ -30125,10 +30284,10 @@
 
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(289);
+	var assocIndexOf = __webpack_require__(288);
 	
 	/**
 	 * Checks if a list cache value for `key` exists.
@@ -30147,10 +30306,10 @@
 
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var assocIndexOf = __webpack_require__(289);
+	var assocIndexOf = __webpack_require__(288);
 	
 	/**
 	 * Sets the list cache `key` to `value`.
@@ -30179,10 +30338,10 @@
 
 
 /***/ }),
-/* 294 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var ListCache = __webpack_require__(286);
+	var ListCache = __webpack_require__(285);
 	
 	/**
 	 * Removes all key-value entries from the stack.
@@ -30200,7 +30359,7 @@
 
 
 /***/ }),
-/* 295 */
+/* 294 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30224,7 +30383,7 @@
 
 
 /***/ }),
-/* 296 */
+/* 295 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30244,7 +30403,7 @@
 
 
 /***/ }),
-/* 297 */
+/* 296 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30264,12 +30423,12 @@
 
 
 /***/ }),
-/* 298 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var ListCache = __webpack_require__(286),
-	    Map = __webpack_require__(299),
-	    MapCache = __webpack_require__(308);
+	var ListCache = __webpack_require__(285),
+	    Map = __webpack_require__(298),
+	    MapCache = __webpack_require__(307);
 	
 	/** Used as the size to enable large array optimizations. */
 	var LARGE_ARRAY_SIZE = 200;
@@ -30304,10 +30463,10 @@
 
 
 /***/ }),
-/* 299 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(300),
+	var getNative = __webpack_require__(299),
 	    root = __webpack_require__(197);
 	
 	/* Built-in method references that are verified to be native. */
@@ -30317,11 +30476,11 @@
 
 
 /***/ }),
-/* 300 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseIsNative = __webpack_require__(301),
-	    getValue = __webpack_require__(307);
+	var baseIsNative = __webpack_require__(300),
+	    getValue = __webpack_require__(306);
 	
 	/**
 	 * Gets the native function at `key` of `object`.
@@ -30340,13 +30499,13 @@
 
 
 /***/ }),
-/* 301 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(302),
-	    isMasked = __webpack_require__(304),
-	    isObject = __webpack_require__(303),
-	    toSource = __webpack_require__(306);
+	var isFunction = __webpack_require__(301),
+	    isMasked = __webpack_require__(303),
+	    isObject = __webpack_require__(302),
+	    toSource = __webpack_require__(305);
 	
 	/**
 	 * Used to match `RegExp`
@@ -30393,11 +30552,11 @@
 
 
 /***/ }),
-/* 302 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var baseGetTag = __webpack_require__(195),
-	    isObject = __webpack_require__(303);
+	    isObject = __webpack_require__(302);
 	
 	/** `Object#toString` result references. */
 	var asyncTag = '[object AsyncFunction]',
@@ -30436,7 +30595,7 @@
 
 
 /***/ }),
-/* 303 */
+/* 302 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30473,10 +30632,10 @@
 
 
 /***/ }),
-/* 304 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var coreJsData = __webpack_require__(305);
+	var coreJsData = __webpack_require__(304);
 	
 	/** Used to detect methods masquerading as native. */
 	var maskSrcKey = (function() {
@@ -30499,7 +30658,7 @@
 
 
 /***/ }),
-/* 305 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var root = __webpack_require__(197);
@@ -30511,7 +30670,7 @@
 
 
 /***/ }),
-/* 306 */
+/* 305 */
 /***/ (function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -30543,7 +30702,7 @@
 
 
 /***/ }),
-/* 307 */
+/* 306 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30562,14 +30721,14 @@
 
 
 /***/ }),
-/* 308 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var mapCacheClear = __webpack_require__(309),
-	    mapCacheDelete = __webpack_require__(317),
-	    mapCacheGet = __webpack_require__(320),
-	    mapCacheHas = __webpack_require__(321),
-	    mapCacheSet = __webpack_require__(322);
+	var mapCacheClear = __webpack_require__(308),
+	    mapCacheDelete = __webpack_require__(316),
+	    mapCacheGet = __webpack_require__(319),
+	    mapCacheHas = __webpack_require__(320),
+	    mapCacheSet = __webpack_require__(321);
 	
 	/**
 	 * Creates a map cache object to store key-value pairs.
@@ -30600,12 +30759,12 @@
 
 
 /***/ }),
-/* 309 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Hash = __webpack_require__(310),
-	    ListCache = __webpack_require__(286),
-	    Map = __webpack_require__(299);
+	var Hash = __webpack_require__(309),
+	    ListCache = __webpack_require__(285),
+	    Map = __webpack_require__(298);
 	
 	/**
 	 * Removes all key-value entries from the map.
@@ -30627,14 +30786,14 @@
 
 
 /***/ }),
-/* 310 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var hashClear = __webpack_require__(311),
-	    hashDelete = __webpack_require__(313),
-	    hashGet = __webpack_require__(314),
-	    hashHas = __webpack_require__(315),
-	    hashSet = __webpack_require__(316);
+	var hashClear = __webpack_require__(310),
+	    hashDelete = __webpack_require__(312),
+	    hashGet = __webpack_require__(313),
+	    hashHas = __webpack_require__(314),
+	    hashSet = __webpack_require__(315);
 	
 	/**
 	 * Creates a hash object.
@@ -30665,10 +30824,10 @@
 
 
 /***/ }),
-/* 311 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(312);
+	var nativeCreate = __webpack_require__(311);
 	
 	/**
 	 * Removes all key-value entries from the hash.
@@ -30686,10 +30845,10 @@
 
 
 /***/ }),
-/* 312 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(300);
+	var getNative = __webpack_require__(299);
 	
 	/* Built-in method references that are verified to be native. */
 	var nativeCreate = getNative(Object, 'create');
@@ -30698,7 +30857,7 @@
 
 
 /***/ }),
-/* 313 */
+/* 312 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30721,10 +30880,10 @@
 
 
 /***/ }),
-/* 314 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(312);
+	var nativeCreate = __webpack_require__(311);
 	
 	/** Used to stand-in for `undefined` hash values. */
 	var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -30757,10 +30916,10 @@
 
 
 /***/ }),
-/* 315 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(312);
+	var nativeCreate = __webpack_require__(311);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -30786,10 +30945,10 @@
 
 
 /***/ }),
-/* 316 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var nativeCreate = __webpack_require__(312);
+	var nativeCreate = __webpack_require__(311);
 	
 	/** Used to stand-in for `undefined` hash values. */
 	var HASH_UNDEFINED = '__lodash_hash_undefined__';
@@ -30815,10 +30974,10 @@
 
 
 /***/ }),
-/* 317 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(318);
+	var getMapData = __webpack_require__(317);
 	
 	/**
 	 * Removes `key` and its value from the map.
@@ -30839,10 +30998,10 @@
 
 
 /***/ }),
-/* 318 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isKeyable = __webpack_require__(319);
+	var isKeyable = __webpack_require__(318);
 	
 	/**
 	 * Gets the data for `map`.
@@ -30863,7 +31022,7 @@
 
 
 /***/ }),
-/* 319 */
+/* 318 */
 /***/ (function(module, exports) {
 
 	/**
@@ -30884,10 +31043,10 @@
 
 
 /***/ }),
-/* 320 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(318);
+	var getMapData = __webpack_require__(317);
 	
 	/**
 	 * Gets the map value for `key`.
@@ -30906,10 +31065,10 @@
 
 
 /***/ }),
-/* 321 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(318);
+	var getMapData = __webpack_require__(317);
 	
 	/**
 	 * Checks if a map value for `key` exists.
@@ -30928,10 +31087,10 @@
 
 
 /***/ }),
-/* 322 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getMapData = __webpack_require__(318);
+	var getMapData = __webpack_require__(317);
 	
 	/**
 	 * Sets the map `key` to `value`.
@@ -30956,11 +31115,11 @@
 
 
 /***/ }),
-/* 323 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseAssignValue = __webpack_require__(324),
-	    eq = __webpack_require__(290);
+	var baseAssignValue = __webpack_require__(323),
+	    eq = __webpack_require__(289);
 	
 	/**
 	 * This function is like `assignValue` except that it doesn't assign
@@ -30982,10 +31141,10 @@
 
 
 /***/ }),
-/* 324 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var defineProperty = __webpack_require__(325);
+	var defineProperty = __webpack_require__(324);
 	
 	/**
 	 * The base implementation of `assignValue` and `assignMergeValue` without
@@ -31013,10 +31172,10 @@
 
 
 /***/ }),
-/* 325 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var getNative = __webpack_require__(300);
+	var getNative = __webpack_require__(299);
 	
 	var defineProperty = (function() {
 	  try {
@@ -31030,10 +31189,10 @@
 
 
 /***/ }),
-/* 326 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var createBaseFor = __webpack_require__(327);
+	var createBaseFor = __webpack_require__(326);
 	
 	/**
 	 * The base implementation of `baseForOwn` which iterates over `object`
@@ -31052,7 +31211,7 @@
 
 
 /***/ }),
-/* 327 */
+/* 326 */
 /***/ (function(module, exports) {
 
 	/**
@@ -31083,23 +31242,23 @@
 
 
 /***/ }),
-/* 328 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var assignMergeValue = __webpack_require__(323),
-	    cloneBuffer = __webpack_require__(329),
-	    cloneTypedArray = __webpack_require__(330),
-	    copyArray = __webpack_require__(333),
-	    initCloneObject = __webpack_require__(334),
-	    isArguments = __webpack_require__(337),
-	    isArray = __webpack_require__(339),
-	    isArrayLikeObject = __webpack_require__(340),
-	    isBuffer = __webpack_require__(343),
-	    isFunction = __webpack_require__(302),
-	    isObject = __webpack_require__(303),
+	var assignMergeValue = __webpack_require__(322),
+	    cloneBuffer = __webpack_require__(328),
+	    cloneTypedArray = __webpack_require__(329),
+	    copyArray = __webpack_require__(332),
+	    initCloneObject = __webpack_require__(333),
+	    isArguments = __webpack_require__(336),
+	    isArray = __webpack_require__(338),
+	    isArrayLikeObject = __webpack_require__(339),
+	    isBuffer = __webpack_require__(342),
+	    isFunction = __webpack_require__(301),
+	    isObject = __webpack_require__(302),
 	    isPlainObject = __webpack_require__(194),
-	    isTypedArray = __webpack_require__(345),
-	    toPlainObject = __webpack_require__(349);
+	    isTypedArray = __webpack_require__(344),
+	    toPlainObject = __webpack_require__(348);
 	
 	/**
 	 * A specialized version of `baseMerge` for arrays and objects which performs
@@ -31182,7 +31341,7 @@
 
 
 /***/ }),
-/* 329 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(197);
@@ -31224,10 +31383,10 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)(module)))
 
 /***/ }),
-/* 330 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var cloneArrayBuffer = __webpack_require__(331);
+	var cloneArrayBuffer = __webpack_require__(330);
 	
 	/**
 	 * Creates a clone of `typedArray`.
@@ -31246,10 +31405,10 @@
 
 
 /***/ }),
-/* 331 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var Uint8Array = __webpack_require__(332);
+	var Uint8Array = __webpack_require__(331);
 	
 	/**
 	 * Creates a clone of `arrayBuffer`.
@@ -31268,7 +31427,7 @@
 
 
 /***/ }),
-/* 332 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var root = __webpack_require__(197);
@@ -31280,7 +31439,7 @@
 
 
 /***/ }),
-/* 333 */
+/* 332 */
 /***/ (function(module, exports) {
 
 	/**
@@ -31306,12 +31465,12 @@
 
 
 /***/ }),
-/* 334 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseCreate = __webpack_require__(335),
+	var baseCreate = __webpack_require__(334),
 	    getPrototype = __webpack_require__(201),
-	    isPrototype = __webpack_require__(336);
+	    isPrototype = __webpack_require__(335);
 	
 	/**
 	 * Initializes an object clone.
@@ -31330,10 +31489,10 @@
 
 
 /***/ }),
-/* 335 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(303);
+	var isObject = __webpack_require__(302);
 	
 	/** Built-in value references. */
 	var objectCreate = Object.create;
@@ -31366,7 +31525,7 @@
 
 
 /***/ }),
-/* 336 */
+/* 335 */
 /***/ (function(module, exports) {
 
 	/** Used for built-in method references. */
@@ -31390,10 +31549,10 @@
 
 
 /***/ }),
-/* 337 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseIsArguments = __webpack_require__(338),
+	var baseIsArguments = __webpack_require__(337),
 	    isObjectLike = __webpack_require__(203);
 	
 	/** Used for built-in method references. */
@@ -31432,7 +31591,7 @@
 
 
 /***/ }),
-/* 338 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var baseGetTag = __webpack_require__(195),
@@ -31456,7 +31615,7 @@
 
 
 /***/ }),
-/* 339 */
+/* 338 */
 /***/ (function(module, exports) {
 
 	/**
@@ -31488,10 +31647,10 @@
 
 
 /***/ }),
-/* 340 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isArrayLike = __webpack_require__(341),
+	var isArrayLike = __webpack_require__(340),
 	    isObjectLike = __webpack_require__(203);
 	
 	/**
@@ -31527,11 +31686,11 @@
 
 
 /***/ }),
-/* 341 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isFunction = __webpack_require__(302),
-	    isLength = __webpack_require__(342);
+	var isFunction = __webpack_require__(301),
+	    isLength = __webpack_require__(341);
 	
 	/**
 	 * Checks if `value` is array-like. A value is considered array-like if it's
@@ -31566,7 +31725,7 @@
 
 
 /***/ }),
-/* 342 */
+/* 341 */
 /***/ (function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -31607,11 +31766,11 @@
 
 
 /***/ }),
-/* 343 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var root = __webpack_require__(197),
-	    stubFalse = __webpack_require__(344);
+	    stubFalse = __webpack_require__(343);
 	
 	/** Detect free variable `exports`. */
 	var freeExports = typeof exports == 'object' && exports && !exports.nodeType && exports;
@@ -31652,7 +31811,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)(module)))
 
 /***/ }),
-/* 344 */
+/* 343 */
 /***/ (function(module, exports) {
 
 	/**
@@ -31676,12 +31835,12 @@
 
 
 /***/ }),
-/* 345 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseIsTypedArray = __webpack_require__(346),
-	    baseUnary = __webpack_require__(347),
-	    nodeUtil = __webpack_require__(348);
+	var baseIsTypedArray = __webpack_require__(345),
+	    baseUnary = __webpack_require__(346),
+	    nodeUtil = __webpack_require__(347);
 	
 	/* Node.js helper references. */
 	var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
@@ -31709,11 +31868,11 @@
 
 
 /***/ }),
-/* 346 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var baseGetTag = __webpack_require__(195),
-	    isLength = __webpack_require__(342),
+	    isLength = __webpack_require__(341),
 	    isObjectLike = __webpack_require__(203);
 	
 	/** `Object#toString` result references. */
@@ -31775,7 +31934,7 @@
 
 
 /***/ }),
-/* 347 */
+/* 346 */
 /***/ (function(module, exports) {
 
 	/**
@@ -31795,7 +31954,7 @@
 
 
 /***/ }),
-/* 348 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module) {var freeGlobal = __webpack_require__(198);
@@ -31824,11 +31983,11 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(206)(module)))
 
 /***/ }),
-/* 349 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var copyObject = __webpack_require__(350),
-	    keysIn = __webpack_require__(352);
+	var copyObject = __webpack_require__(349),
+	    keysIn = __webpack_require__(351);
 	
 	/**
 	 * Converts `value` to a plain object flattening inherited enumerable string
@@ -31862,11 +32021,11 @@
 
 
 /***/ }),
-/* 350 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var assignValue = __webpack_require__(351),
-	    baseAssignValue = __webpack_require__(324);
+	var assignValue = __webpack_require__(350),
+	    baseAssignValue = __webpack_require__(323);
 	
 	/**
 	 * Copies properties of `source` to `object`.
@@ -31908,11 +32067,11 @@
 
 
 /***/ }),
-/* 351 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseAssignValue = __webpack_require__(324),
-	    eq = __webpack_require__(290);
+	var baseAssignValue = __webpack_require__(323),
+	    eq = __webpack_require__(289);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -31942,12 +32101,12 @@
 
 
 /***/ }),
-/* 352 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var arrayLikeKeys = __webpack_require__(353),
-	    baseKeysIn = __webpack_require__(356),
-	    isArrayLike = __webpack_require__(341);
+	var arrayLikeKeys = __webpack_require__(352),
+	    baseKeysIn = __webpack_require__(355),
+	    isArrayLike = __webpack_require__(340);
 	
 	/**
 	 * Creates an array of the own and inherited enumerable property names of `object`.
@@ -31980,15 +32139,15 @@
 
 
 /***/ }),
-/* 353 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseTimes = __webpack_require__(354),
-	    isArguments = __webpack_require__(337),
-	    isArray = __webpack_require__(339),
-	    isBuffer = __webpack_require__(343),
-	    isIndex = __webpack_require__(355),
-	    isTypedArray = __webpack_require__(345);
+	var baseTimes = __webpack_require__(353),
+	    isArguments = __webpack_require__(336),
+	    isArray = __webpack_require__(338),
+	    isBuffer = __webpack_require__(342),
+	    isIndex = __webpack_require__(354),
+	    isTypedArray = __webpack_require__(344);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -32035,7 +32194,7 @@
 
 
 /***/ }),
-/* 354 */
+/* 353 */
 /***/ (function(module, exports) {
 
 	/**
@@ -32061,7 +32220,7 @@
 
 
 /***/ }),
-/* 355 */
+/* 354 */
 /***/ (function(module, exports) {
 
 	/** Used as references for various `Number` constants. */
@@ -32089,12 +32248,12 @@
 
 
 /***/ }),
-/* 356 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(303),
-	    isPrototype = __webpack_require__(336),
-	    nativeKeysIn = __webpack_require__(357);
+	var isObject = __webpack_require__(302),
+	    isPrototype = __webpack_require__(335),
+	    nativeKeysIn = __webpack_require__(356);
 	
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -32128,7 +32287,7 @@
 
 
 /***/ }),
-/* 357 */
+/* 356 */
 /***/ (function(module, exports) {
 
 	/**
@@ -32154,11 +32313,11 @@
 
 
 /***/ }),
-/* 358 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseRest = __webpack_require__(359),
-	    isIterateeCall = __webpack_require__(367);
+	var baseRest = __webpack_require__(358),
+	    isIterateeCall = __webpack_require__(366);
 	
 	/**
 	 * Creates a function like `_.assign`.
@@ -32197,12 +32356,12 @@
 
 
 /***/ }),
-/* 359 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var identity = __webpack_require__(360),
-	    overRest = __webpack_require__(361),
-	    setToString = __webpack_require__(363);
+	var identity = __webpack_require__(359),
+	    overRest = __webpack_require__(360),
+	    setToString = __webpack_require__(362);
 	
 	/**
 	 * The base implementation of `_.rest` which doesn't validate or coerce arguments.
@@ -32220,7 +32379,7 @@
 
 
 /***/ }),
-/* 360 */
+/* 359 */
 /***/ (function(module, exports) {
 
 	/**
@@ -32247,10 +32406,10 @@
 
 
 /***/ }),
-/* 361 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var apply = __webpack_require__(362);
+	var apply = __webpack_require__(361);
 	
 	/* Built-in method references for those with the same name as other `lodash` methods. */
 	var nativeMax = Math.max;
@@ -32289,7 +32448,7 @@
 
 
 /***/ }),
-/* 362 */
+/* 361 */
 /***/ (function(module, exports) {
 
 	/**
@@ -32316,11 +32475,11 @@
 
 
 /***/ }),
-/* 363 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var baseSetToString = __webpack_require__(364),
-	    shortOut = __webpack_require__(366);
+	var baseSetToString = __webpack_require__(363),
+	    shortOut = __webpack_require__(365);
 	
 	/**
 	 * Sets the `toString` method of `func` to return `string`.
@@ -32336,12 +32495,12 @@
 
 
 /***/ }),
-/* 364 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var constant = __webpack_require__(365),
-	    defineProperty = __webpack_require__(325),
-	    identity = __webpack_require__(360);
+	var constant = __webpack_require__(364),
+	    defineProperty = __webpack_require__(324),
+	    identity = __webpack_require__(359);
 	
 	/**
 	 * The base implementation of `setToString` without support for hot loop shorting.
@@ -32364,7 +32523,7 @@
 
 
 /***/ }),
-/* 365 */
+/* 364 */
 /***/ (function(module, exports) {
 
 	/**
@@ -32396,7 +32555,7 @@
 
 
 /***/ }),
-/* 366 */
+/* 365 */
 /***/ (function(module, exports) {
 
 	/** Used to detect hot functions by number of calls within a span of milliseconds. */
@@ -32439,13 +32598,13 @@
 
 
 /***/ }),
-/* 367 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var eq = __webpack_require__(290),
-	    isArrayLike = __webpack_require__(341),
-	    isIndex = __webpack_require__(355),
-	    isObject = __webpack_require__(303);
+	var eq = __webpack_require__(289),
+	    isArrayLike = __webpack_require__(340),
+	    isIndex = __webpack_require__(354),
+	    isObject = __webpack_require__(302);
 	
 	/**
 	 * Checks if the given arguments are from an iteratee call.
@@ -32475,7 +32634,7 @@
 
 
 /***/ }),
-/* 368 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32484,82 +32643,11 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _message_actions = __webpack_require__(368);
 	
-	var _react = __webpack_require__(1);
+	var _conversation_actions = __webpack_require__(274);
 	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Conversations = function (_React$Component) {
-	  _inherits(Conversations, _React$Component);
-	
-	  function Conversations(props) {
-	    _classCallCheck(this, Conversations);
-	
-	    return _possibleConstructorReturn(this, (Conversations.__proto__ || Object.getPrototypeOf(Conversations)).call(this, props));
-	  }
-	
-	  _createClass(Conversations, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.props.fetchAllConversations();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      if (this.props.loading) {
-	        debugger;
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          'loading'
-	        );
-	      }
-	      return _react2.default.createElement(
-	        'ul',
-	        null,
-	        this.props.conversations.map(function (conversation) {
-	          return _react2.default.createElement(
-	            'li',
-	            { key: conversation.id },
-	            conversation.title,
-	            ' ',
-	            conversation.last_reply
-	          );
-	        })
-	      );
-	    }
-	  }]);
-	
-	  return Conversations;
-	}(_react2.default.Component);
-	
-	exports.default = Conversations;
-
-/***/ }),
-/* 369 */,
-/* 370 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _message_actions = __webpack_require__(275);
-	
-	var _conversation_actions = __webpack_require__(281);
-	
-	var _merge = __webpack_require__(283);
+	var _merge = __webpack_require__(282);
 	
 	var _merge2 = _interopRequireDefault(_merge);
 	
@@ -32583,44 +32671,92 @@
 	exports.default = CurrentConversationReducer;
 
 /***/ }),
-/* 371 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.sendMessage = exports.typingMessage = exports.receiveMessage = exports.TYPING_MESSAGE = exports.RECEIVE_MESSAGE = undefined;
+	
+	var _message_api_utils = __webpack_require__(369);
+	
+	var APIUtil = _interopRequireWildcard(_message_api_utils);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	var RECEIVE_MESSAGE = exports.RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
+	var TYPING_MESSAGE = exports.TYPING_MESSAGE = "TYPING_MESSAGE";
+	
+	var receiveMessage = exports.receiveMessage = function receiveMessage(message) {
+	  return {
+	    type: RECEIVE_MESSAGE,
+	    message: message
+	  };
+	};
+	
+	var typingMessage = exports.typingMessage = function typingMessage() {
+	  return {
+	    type: TYPING_MESSAGE
+	  };
+	};
+	
+	var sendMessage = exports.sendMessage = function sendMessage(message) {
+	  return function (dispatch) {
+	    return APIUtil.sendMessage(message).then(function (message) {
+	      return dispatch(receiveMessage(message));
+	    });
+	  };
+	};
+
+/***/ }),
+/* 369 */
+/***/ (function(module, exports) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	//Normally this would be the place to write ajax calls to the backend. But for the popurse of this challenge, I only used calls to pusher here.
 	
-	var _reactRedux = __webpack_require__(183);
-	
-	var _conversations = __webpack_require__(368);
-	
-	var _conversations2 = _interopRequireDefault(_conversations);
-	
-	var _conversation_actions = __webpack_require__(281);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	  return {
-	    loading: state.loading.loadingAllConversations,
-	    conversations: Object.keys(state.conversations).map(function (id) {
-	      return state.conversations[id];
-	    })
-	    //userId is supposed to be from the session reducer where contains the current user's information. But for the popurse of this challenge, I'm manully assigning an id to the component
-	  };
+	var fetchMessages = exports.fetchMessages = function fetchMessages(userId) {
+	  return $.ajax({
+	    method: 'GET',
+	    url: 'http://www.randomtext.me/api/'
+	  });
+	  // This should return an ajax call to the backend server.
 	};
+
+/***/ }),
+/* 370 */
+/***/ (function(module, exports) {
+
+	'use strict';
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    fetchAllConversations: function fetchAllConversations() {
-	      return dispatch((0, _conversation_actions.fetchAllConversations)());
-	    }
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch,
+	        getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+	
+	        return next(action);
+	      };
+	    };
 	  };
-	};
+	}
 	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_conversations2.default);
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+	
+	exports['default'] = thunk;
 
 /***/ })
 /******/ ]);
