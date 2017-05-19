@@ -7,6 +7,11 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script id="bootstrap-current-user" type="text/javascript">
+      <% if user_signed_in? %>
+        window.currentUser = <%= render("users/user.json.jbuilder", user: current_user).html_safe %>
+      <% end %>
+    </script>
   </head>
 
   <body>
