@@ -1,2 +1,13 @@
 node_modules
-bundle/bundle.js.map
+
+bundle.js
+bundle.js.map
+npm-debug.log
+.DS_Store
+/config/application.yml
+/.bundle
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+.byebug_history

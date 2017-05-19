@@ -2,9 +2,9 @@ var path = require("path");
 
 module.exports = {
   context: __dirname,
-  entry: "./assets/javascripts/asapp_challenge.jsx",
+  entry: "./frontend/javascripts/asapp_challenge.jsx",
   output: {
-    path: path.join(__dirname, 'assets', 'javascripts'),
+    path: path.join(__dirname, 'app', 'assets', 'javascripts'),
     filename: "bundle.js"
   },
   module: {
