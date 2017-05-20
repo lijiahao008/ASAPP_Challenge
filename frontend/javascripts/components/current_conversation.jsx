@@ -28,22 +28,15 @@ class CurrentConversation extends React.Component {
     console.log(this.state.message + "user: " + this.props.userId);
   }
 
-  componentDidMount(){
-    this.props.fetchCurrentConversation(1);
-    //manully assigned id, should be most recent conversation id
-
-  }
-
   render () {
     if (this.props.loading) {
-      debugger
       return <div>loading</div>
     }
     return (
       <div>
         <ul>
-          {this.props.messages.map((message)=>(
-            <li key={message.id}>{message.sender} {message.body}</li>
+          {this.props.messages.map((message, idx)=>(
+            <li key={idx}>{message.sender_name} {message.body}</li>
           ))}
         </ul>
         <div>

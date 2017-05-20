@@ -11,14 +11,13 @@ class Conversations extends React.Component {
 
   render () {
     if (this.props.loading) {
-      debugger
       return <div>loading</div>
     }
     return (
       <ul>
         {this.props.conversations.map((conversation)=>(
           <li key={conversation.id}
-            onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>{conversation.title} {conversation.last_reply}</li>
+            onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>{conversation.subject} {conversation.last_message}{conversation.updated_at}</li>
         ))}
       </ul>
     );

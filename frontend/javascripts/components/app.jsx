@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Chat from './chat';
+import ChatContainer from './chat_container';
 
 const App = ({ children }) => (
   <main>
-    <Chat userId={1} />
-    <Chat userId={2} />
+    <ChatContainer />
     {children}
   </main>
 );

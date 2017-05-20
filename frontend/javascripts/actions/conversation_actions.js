@@ -29,17 +29,16 @@ export const loadingAllConversations = () => ({
 
 export const fetchCurrentConversation = (id) => dispatch => {
   dispatch(loadingCurrentConversation());
-  // return APIUtil.fetchConversation(id)
-  // .then(conversation => dispatch(receiveCurrentConversation(conversation)))
-  const conversation = APIUtil.fetchConversation(id);
-  dispatch(receiveCurrentConversation(conversation));
+  return APIUtil.fetchConversation(id)
+  .then(conversation => dispatch(receiveCurrentConversation(conversation)))
+  // const conversation = APIUtil.fetchConversation(id);
+  // dispatch(receiveCurrentConversation(conversation));
 };
 
 export const fetchAllConversations = () => dispatch => {
   dispatch(loadingAllConversations());
-  // return APIUtil.fetchAllConversations()
-  // .then(conversations => dispatch(receiveAllConversations(conversations)))
+  return APIUtil.fetchAllConversations().then(conversations => dispatch(receiveAllConversations(conversations)))
   //this should call ajax call and use the promise to dispatch the other function.
-  const conversations = APIUtil.fetchAllConversations();
-  dispatch(receiveAllConversations(conversations));
+  // const conversations = APIUtil.fetchAllConversations();
+  // dispatch(receiveAllConversations(conversations));
 };

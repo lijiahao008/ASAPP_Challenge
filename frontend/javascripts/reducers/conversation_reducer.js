@@ -6,7 +6,7 @@ const ConversationReducer = (state = {}, action) => {
   let newState = merge({}, state);
   switch (action.type){
     case RECEIVE_ALL_CONVERSATIONS:
-      return Object.assign(newState, action.conversations);
+      return Object.assign(newState, action.conversations.conversations);
     default:
       return state;
   }

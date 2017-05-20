@@ -4,6 +4,7 @@ class Api::ConversationsController < ApplicationController
 
 
   def index
+    sleep(3)
     @mailbox = current_user.mailbox
     render 'api/conversations/index'
   end

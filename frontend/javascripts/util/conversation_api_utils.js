@@ -27,19 +27,19 @@ const conversation = {
 
 
 export const fetchAllConversations = () => {
-  // return $.ajax({
-  //   method: 'GET',
-  //   url: `/api/conversations`
-  // });
+  return $.ajax({
+    method: 'GET',
+    url: `/api/conversations`
+  });
   // This should return an ajax call to the backend server.
-  return conversations;
+  // return conversations;
 };
 
 export const fetchConversation = (id) => {
-  // return $.ajax({
-  //   method: 'GET',
-  //   url: `http://www.randomtext.me/api/`
-  // });
+  return $.ajax({
+    method: 'GET',
+    url: `api/conversations/${id}`
+  });
   // This should return an ajax call to the backend server.
-  return conversation[id];
+  // return conversation[id];
 };
