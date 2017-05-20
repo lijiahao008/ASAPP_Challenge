@@ -1,5 +1,6 @@
 json.id @conversation.id
 json.subject @conversation.subject
+json.recipients @conversation.recipients.select{|user| user.id != current_user.id}
 json.messages do
   @conversation.receipts_for(current_user).each do |receipt|
     message = receipt.message

@@ -4,17 +4,21 @@ class Api::ConversationsController < ApplicationController
 
 
   def index
-    sleep(3)
+    sleep(1)
     @mailbox = current_user.mailbox
     render 'api/conversations/index'
   end
 
   def show
+    sleep(1)
   end
 
   def reply
+    Pusher.trigger("conversation#{@conversation.id}", 'message', {
+     message: params[:body]
+    })
     current_user.reply_to_conversation(@conversation, params[:body])
-    render 'api/conversations/show'
+    render 'api/message/show'
   end
 
   private

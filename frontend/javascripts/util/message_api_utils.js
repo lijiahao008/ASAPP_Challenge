@@ -4,13 +4,12 @@
 //
 
 export const sendMessage = (message) => {
-  // return $.ajax({
-  //   method: 'POST',
-  //   url: `http://www.randomtext.me/api/`,
-  //   data: message
-  // });
+  return $.ajax({
+    method: 'POST',
+    url: `api/conversations/${message.conversationId}/reply`,
+    data: message
+  });
   // This should return an ajax call to the backend server.
-  debugger
   return message;
 };
 
