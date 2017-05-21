@@ -40,8 +40,8 @@ class CurrentConversation extends React.Component {
   componentDidUpdate(prevProps, prevState){
     if (this.props.conversationId != prevProps.conversationId) {
       var channel = this.pusher.subscribe(`conversation${this.props.conversationId}`);
-      channel.bind('message', () => {
-        this.props.fetchCurrentConversation(this.props.conversationId)
+      channel.bind('message', (data) => {
+        this.props.receiveMessage(data.message)
       }, this);
     }
 
@@ -50,7 +50,7 @@ class CurrentConversation extends React.Component {
   render () {
     return (
       <div className="right">
-          <div className="top"><span>To: <span className="name">{this.props.recipients.join(",")}</span></span></div>
+          <div className="top"><span>To: <span className="name">{this.props.recipients.join(", ")}</span></span></div>
           <div className="chat">
             <div className="conversation-start">
                 <span>Today, 6:48 AM</span>

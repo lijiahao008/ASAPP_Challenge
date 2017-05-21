@@ -10,7 +10,8 @@ class Chat extends React.Component {
 
   renderCurrentConversation(){
     if (jQuery.isEmptyObject(this.props.currentConversation) && !this.props.loadingCurrentConversation) {
-      return <div className="empty-conversation"> Click to Open </div>
+      return <div className="right">
+                <div className="top"><span>Click to Open</span></div></div>
     }
     else {
       return <CurrentConversationContainer />

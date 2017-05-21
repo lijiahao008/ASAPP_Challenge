@@ -22,7 +22,6 @@
  body {
    background-color: #f8f8f8;
    -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
    text-rendering: optimizeLegibility;
    font-family: 'Source Sans Pro', sans-serif;
    font-weight: 400;
@@ -33,49 +32,42 @@
 
  .wrapper {
    position: relative;
-   left: 50%;
+   margin: auto;
    width: 1000px;
    height: 800px;
-   -webkit-transform: translate(-50%, 0);
-           transform: translate(-50%, 0);
  }
 
  .container {
    position: relative;
-   top: 50%;
-   left: 50%;
+   margin: auto;
+   top: 10%;
    width: 80%;
    height: 75%;
    background-color: #fff;
-   -webkit-transform: translate(-50%, -50%);
-           transform: translate(-50%, -50%);
  }
- .container .left {
+ .left {
    float: left;
    width: 37.6%;
    height: 100%;
    border: 1px solid #e6e6e6;
    background-color: #fff;
  }
- .container .left .top {
+ .top {
    position: relative;
    width: 100%;
    height: 96px;
    padding: 29px;
  }
- .container .left .top:after {
+ .top:after {
    position: absolute;
    bottom: 0;
    left: 50%;
    display: block;
    width: 80%;
    height: 1px;
-   content: '';
    background-color: #e6e6e6;
-   -webkit-transform: translate(-50%, 0);
-           transform: translate(-50%, 0);
  }
- .container .left input {
+ .left input {
    float: left;
    width: 188px;
    height: 42px;
@@ -86,23 +78,24 @@
    font-family: 'Source Sans Pro', sans-serif;
    font-weight: 400;
  }
- .container .left input:focus {
+ .left input:focus {
    outline: none;
  }
- .container .left a.search {
-   display: block;
+ .left a.search {
    float: left;
+   color: white;
    width: 42px;
    height: 42px;
    margin-left: 10px;
    border: 1px solid #e6e6e6;
    background-color: #00b0ff;
-   background-image: url("http://s11.postimg.org/dpuahewmn/name_type.png");
-   background-repeat: no-repeat;
-   background-position: top 12px left 14px;
    border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center
  }
- .container .left .people {
+
+ .people {
    list-style: none;
    padding: 0px;
    margin-left: -1px;
@@ -110,40 +103,46 @@
    border-left: 1px solid #e6e6e6;
    width: calc(100% + 2px);
  }
- .container .left .people .person {
+ .person {
    position: relative;
    width: 100%;
    padding: 12px 10% 16px;
    cursor: pointer;
    background-color: #fff;
+   border-top: 1px solid lightgrey;
  }
- .container .left .people .person:after {
+ .person:last-child {
+   border-bottom: 1px solid lightgrey;
+ }
+ .person:after {
    position: absolute;
    bottom: 0;
    left: 50%;
    display: block;
    width: 80%;
    height: 1px;
-   content: '';
    background-color: #e6e6e6;
-   -webkit-transform: translate(-50%, 0);
-           transform: translate(-50%, 0);
  }
- .container .left .people .person img {
+ .person img {
    float: left;
    width: 40px;
    height: 40px;
    margin-right: 12px;
    border-radius: 50%;
  }
- .container .left .people .person .name {
+ .name {
    font-size: 14px;
    line-height: 22px;
+   display: inline-block;
+   overflow: hidden !important;
+   width: 40%;
    color: #1a1a1a;
    font-family: 'Source Sans Pro', sans-serif;
    font-weight: 600;
+   white-space: nowrap;
+   text-overflow: ellipsis;
  }
- .container .left .people .person .time {
+ .time {
    font-size: 14px;
    position: absolute;
    top: 16px;
@@ -152,7 +151,7 @@
    color: #999;
    background-color: #fff;
  }
- .container .left .people .person .preview {
+ .preview {
    font-size: 14px;
    display: inline-block;
    overflow: hidden !important;

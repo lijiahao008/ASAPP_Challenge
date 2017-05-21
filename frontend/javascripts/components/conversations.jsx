@@ -22,7 +22,7 @@ class Conversations extends React.Component {
               onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>
               <img src="http://s13.postimg.org/ih41k9tqr/img1.jpg" alt="" />
               <span className="name">{conversation.subject}</span>
-              <span className="time">{conversation.updated_at}</span>
+              <span className="time">{conversation.updated_at.replace("less than", "").replace("about", "")}</span>
               <span className="preview">{conversation.last_message}</span> </li>
           ))}
         </ul>
@@ -35,7 +35,7 @@ class Conversations extends React.Component {
       <div className="left">
           <div className="top">
               <input type="text" />
-              <a className="search"></a>
+              <a className="search"><i className="fa fa-search"></i></a>
           </div>
           {this.renderConversations()}
       </div>

@@ -14,11 +14,11 @@ class Api::ConversationsController < ApplicationController
   end
 
   def reply
+    @message = current_user.reply_to_conversation(@conversation, params[:body]).message
     Pusher.trigger("conversation#{@conversation.id}", 'message', {
-     message: params[:body]
+      message: JSON.parse(render 'api/message/show')
     })
-    current_user.reply_to_conversation(@conversation, params[:body])
-    render 'api/message/show'
+
   end
 
   private

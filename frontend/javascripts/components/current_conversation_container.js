@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import CurrentConversation from './current_conversation';
-import { fetchCurrentConversation } from '../actions/conversation_actions';
-import { sendMessage } from '../actions/message_actions';
+// import { fetchCurrentConversation } from '../actions/conversation_actions';
+import { sendMessage, receiveMessage } from '../actions/message_actions';
 
 const mapStateToProps = (state, ownProps) => {
   const messages = jQuery.isEmptyObject(state.current_conversation) ? [] : Object.keys(state.current_conversation.messages).map((id)=>(state.current_conversation.messages[id]))
@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
   sendMessage: (message) => dispatch(sendMessage(message)),
-  fetchCurrentConversation: (id) => dispatch(fetchCurrentConversation(id))
+  receiveMessage: (message) => dispatch(receiveMessage(message))
 }};
 
 export default connect(
