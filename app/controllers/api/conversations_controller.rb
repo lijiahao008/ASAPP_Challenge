@@ -22,7 +22,7 @@ class Api::ConversationsController < ApplicationController
 
   def reply
     @message = current_user.reply_to_conversation(@conversation, params[:body]).message
-    Pusher.trigger("conversation#{@conversation.id}", 'message', {
+    Pusher.trigger("conversation", 'message', {
       message: JSON.parse(render 'api/message/show')
     })
 

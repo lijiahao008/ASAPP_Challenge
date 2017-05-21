@@ -9,7 +9,7 @@ class Conversations extends React.Component {
   }
 
   componentDidMount(){
-    this.props.fetchAllConversations().then(()=>this.props.conversations.forEach((conversation)=>{this.pusher.subscribe(`conversation${conversation.id}`).bind('message', (data) => {this.props.receiveMessage(data.message)});}))
+    this.props.fetchAllConversations().then(()=>this.pusher.subscribe(`conversation`).bind('message', (data) => {this.props.receiveMessage(data.message)}));
   }
 
   handleClick(e, id){

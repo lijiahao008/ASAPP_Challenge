@@ -37,13 +37,7 @@ class CurrentConversation extends React.Component {
     this.setState({message: ""});
   }
 
-  componentDidUpdate(prevProps, prevState){
-    if (this.props.conversationId != prevProps.conversationId) {
-      var channel = this.pusher.subscribe(`conversation${this.props.conversationId}`);
-      channel.bind('message', (data) => {
-        this.props.receiveMessage(data.message)
-      }, this);
-    }
+  componentDidUpdate(){
     this.scrollToBottom();
   }
 
@@ -80,11 +74,11 @@ class CurrentConversation extends React.Component {
           <div className="top"><span>To: <span className="name">{this.props.recipients.join(", ")}</span></span></div>
           {this.renderConversation()}
           <div className="write">
-              <a className="write-link attach"></a>
+              <i className="fa fa-camera fa-fw" aria-hidden="true"></i>
               <input onChange={this.handleChange}
               value={this.state.message} type='text' placeholder="Please type your message here"/>
-              <a className="write-link smiley"></a>
-              <a className="write-link send" onClick={this.handleSubmit}></a>
+              <i className="fa fa-smile-o fa-fw" aria-hidden="true"></i>
+              <i className="fa fa-paper-plane fa-fw" onClick={this.handleSubmit}></i>
           </div>
       </div>
     );

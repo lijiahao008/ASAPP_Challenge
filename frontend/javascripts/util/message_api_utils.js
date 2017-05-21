@@ -10,7 +10,7 @@ export const sendMessage = (message) => {
     data: message
   });
   // This should return an ajax call to the backend server.
-  return message;
+  // return message;
 };
 
 export const startTyping = () => {
