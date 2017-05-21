@@ -11,7 +11,6 @@ const CurrentConversationReducer = (state = {}, action) => {
     case RECEIVE_MESSAGE:
       let id = action.message[Object.keys(action.message)[0]].conversation_id
       if (id === state.id) {
-        debugger
         return merge({}, state, {messages: action.message});
       }
     default:
