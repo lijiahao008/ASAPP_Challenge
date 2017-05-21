@@ -8,10 +8,7 @@ class CurrentConversation extends React.Component {
       message: "",
       typing: false
     }
-    this.pusher = new Pusher('971bd4a33aad3e439115', {
-     cluster: 'us2',
-     encrypted: true
-   });
+    this.pusher = this.props.pusher;
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);

@@ -9,7 +9,11 @@ const CurrentConversationReducer = (state = {}, action) => {
     case RECEIVE_CURRENT_CONVERSATION:
       return Object.assign(action.conversation);
     case RECEIVE_MESSAGE:
-      return merge({}, state, {messages: action.message});
+      let id = action.message[Object.keys(action.message)[0]].conversation_id
+      if (id === state.id) {
+        debugger
+        return merge({}, state, {messages: action.message});
+      }
     default:
       return state;
   }
