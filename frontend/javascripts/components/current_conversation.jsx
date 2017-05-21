@@ -15,6 +15,7 @@ class CurrentConversation extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.renderConversation = this.renderConversation.bind(this);
   }
 
   handleChange(e){
@@ -56,27 +57,31 @@ class CurrentConversation extends React.Component {
     }
   }
 
-  render () {
+  renderConversation(){
     if (this.props.loading) {
-      return <div>Loading...</div>
+      return <div className="conversation-spinner"><img src={window.images.spinner} /></div>
     }
+    else {
+      return <div className="chat">
+                  <div className="conversation-start">
+                      <span>Today, 6:48 AM</span>
+                  </div>
+                  {this.props.messages.map((message, idx)=>{
+                    let className = message.sender_id === window.currentUser.id ? "me" : "you"
+                    return <div className={"bubble-wrapper"}
+                      key={idx}><img
+                      className={className} src={message.sender_pic} /><div className={"bubble " + className}>{message.body}</div></div>
+                  })}
+                  <div style={ {float:"left", clear: "both"} }
+              ref={(el) => { this.messagesEnd = el; }}></div>
+                </div>
+    }
+  }
+  render () {
     return (
       <div className="right">
           <div className="top"><span>To: <span className="name">{this.props.recipients.join(", ")}</span></span></div>
-          <div className="chat">
-            <div className="conversation-start">
-                <span>Today, 6:48 AM</span>
-            </div>
-            {this.props.messages.map((message, idx)=>{
-              let className = message.sender_id === window.currentUser.id ? "me" : "you"
-              return <div className={"bubble-wrapper"}
-                key={idx}><img
-                className={className} src={message.sender_pic} /><div className={"bubble " + className}>{message.body}</div></div>
-            })}
-            <div style={ {float:"left", clear: "both"} }
-        ref={(el) => { this.messagesEnd = el; }}></div>
-          </div>
-
+          {this.renderConversation()}
           <div className="write">
               <a className="write-link attach"></a>
               <input onChange={this.handleChange}

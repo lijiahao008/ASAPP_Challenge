@@ -13,6 +13,9 @@
       <% if user_signed_in? %>
         window.currentUser = <%= render("users/user.json.jbuilder", user: current_user).html_safe %>
       <% end %>
+      window.images = {
+        spinner: "<%= image_path("spinner.gif") %>"
+      }
     </script>
   </head>
 

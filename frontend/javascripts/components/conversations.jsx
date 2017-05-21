@@ -12,19 +12,21 @@ class Conversations extends React.Component {
 
   renderConversations(){
     if (this.props.loading) {
-      return <div>loading</div>
+      return <div className="conversations-spinner"><img src={window.images.spinner} /></div>
     }
     else {
       return <ul className="people">
-          {this.props.conversations.map((conversation)=>(
-            <li key={conversation.id}
-              className="person"
+          {this.props.conversations.map((conversation)=>{
+
+            let className="person " + (conversation.is_read ? "read" : "unread");
+            return <li key={conversation.id}
+              className={className}
               onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>
               <img src={conversation.last_sender_pic} alt="" />
               <span className="name">{conversation.subject}</span>
               <span className="time">{conversation.updated_at.replace("less than", "").replace("about", "")}</span>
               <span className="preview">{conversation.last_message}</span> </li>
-          ))}
+          })}
         </ul>
       }
   }
