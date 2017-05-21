@@ -20,7 +20,7 @@ class Conversations extends React.Component {
             <li key={conversation.id}
               className="person"
               onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>
-              <img src="http://s13.postimg.org/ih41k9tqr/img1.jpg" alt="" />
+              <img src={conversation.last_sender_pic} alt="" />
               <span className="name">{conversation.subject}</span>
               <span className="time">{conversation.updated_at.replace("less than", "").replace("about", "")}</span>
               <span className="preview">{conversation.last_message}</span> </li>

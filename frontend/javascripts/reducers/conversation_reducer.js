@@ -1,4 +1,5 @@
 import { RECEIVE_ALL_CONVERSATIONS } from '../actions/conversation_actions';
+import { RECEIVE_MESSAGE } from '../actions/message_actions';
 import merge from 'lodash/merge';
 
 const ConversationReducer = (state = {}, action) => {
@@ -7,6 +8,18 @@ const ConversationReducer = (state = {}, action) => {
   switch (action.type){
     case RECEIVE_ALL_CONVERSATIONS:
       return Object.assign(newState, action.conversations.conversations);
+    case RECEIVE_MESSAGE:
+      const message = action.message[Object.keys(action.message)[0]]
+      const subject = newState[message.conversation_id].subject;
+      delete newState[message.conversation_id]
+      const newConversation = {[message.conversation_id] : {
+        id: message.conversation_id,
+        subject,
+        last_message: message.body,
+        last_sender_pic: message.sender_pic,
+        updated_at: message.created_at
+      }}
+      return merge({}, newState, newConversation);
     default:
       return state;
   }

@@ -51,7 +51,6 @@ class CurrentConversation extends React.Component {
 
   scrollToBottom(){
     const node = ReactDOM.findDOMNode(this.messagesEnd);
-    debugger
     if (node) {
       node.scrollIntoView({behavior: "smooth"});
     }
@@ -69,8 +68,10 @@ class CurrentConversation extends React.Component {
                 <span>Today, 6:48 AM</span>
             </div>
             {this.props.messages.map((message, idx)=>{
-              let className = message.sender_id === window.currentUser.id ? "bubble me" : "bubble you"
-              return <div className={className} key={idx}>{message.sender_name}: {message.body}</div>
+              let className = message.sender_id === window.currentUser.id ? "me" : "you"
+              return <div className={"bubble-wrapper"}
+                key={idx}><img
+                className={className} src={message.sender_pic} /><div className={"bubble " + className}>{message.body}</div></div>
             })}
             <div style={ {float:"left", clear: "both"} }
         ref={(el) => { this.messagesEnd = el; }}></div>

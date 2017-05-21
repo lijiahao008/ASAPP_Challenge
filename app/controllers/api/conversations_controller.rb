@@ -5,12 +5,14 @@ class Api::ConversationsController < ApplicationController
 
   def index
     sleep(1)
+    # simulate latency
     @mailbox = current_user.mailbox
     render 'api/conversations/index'
   end
 
   def show
     sleep(1)
+    # simulate latency
   end
 
   def reply

@@ -5,6 +5,7 @@ json.conversations do
       json.subject conversation.subject
       json.updated_at time_ago_in_words(conversation.updated_at) + " ago"
       json.last_message conversation.last_message.body
+      json.last_sender_pic conversation.last_message.sender.profile_pic_url
     end
   end
 end
