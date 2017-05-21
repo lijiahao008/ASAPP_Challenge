@@ -11,6 +11,7 @@ class Api::ConversationsController < ApplicationController
   end
 
   def show
+    mark_as_read
     sleep(2)
     # simulate latency
   end

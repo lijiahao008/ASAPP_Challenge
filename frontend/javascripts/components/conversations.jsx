@@ -4,10 +4,21 @@ class Conversations extends React.Component {
   constructor(props){
     super(props);
     this.renderConversations = this.renderConversations.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.pusher = new Pusher('971bd4a33aad3e439115', {
+     cluster: 'us2',
+     encrypted: true
+   });
   }
 
   componentDidMount(){
     this.props.fetchAllConversations();
+  }
+
+  handleClick(e, id){
+    e.preventDefault();
+    this.props.markAsRead(id);
+    this.props.fetchCurrentConversation(id);
   }
 
   renderConversations(){
@@ -17,11 +28,10 @@ class Conversations extends React.Component {
     else {
       return <ul className="people">
           {this.props.conversations.map((conversation)=>{
-
             let className="person " + (conversation.is_read ? "read" : "unread");
             return <li key={conversation.id}
               className={className}
-              onClick={()=>this.props.fetchCurrentConversation(conversation.id)}>
+              onClick={(e)=>this.handleClick(e, conversation.id)}>
               <img src={conversation.last_sender_pic} alt="" />
               <span className="name">{conversation.subject}</span>
               <span className="time">{conversation.updated_at.replace("less than", "").replace("about", "")}</span>

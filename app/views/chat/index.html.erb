@@ -1,5 +1,6 @@
 
 <% if user_signed_in? %>
+  <div>Signed in as <%= current_user.name %> </div>
   <%= button_to "Log out", destroy_user_session_path, :method => "delete" %>
   <div id="root"></div>
 <% else %>

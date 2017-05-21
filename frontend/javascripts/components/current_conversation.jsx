@@ -36,7 +36,7 @@ class CurrentConversation extends React.Component {
       conversationId: this.props.conversationId,
       body: this.state.message
     }
-    this.props.sendMessage(message);
+    this.props.sendMessage(message).then(()=>this.props.markAsRead(this.props.conversationId));
     this.setState({message: ""});
   }
 
