@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 class CurrentConversation extends React.Component {
   constructor(props){
@@ -13,6 +14,7 @@ class CurrentConversation extends React.Component {
    });
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   handleChange(e){
@@ -44,7 +46,15 @@ class CurrentConversation extends React.Component {
         this.props.receiveMessage(data.message)
       }, this);
     }
+    this.scrollToBottom();
+  }
 
+  scrollToBottom(){
+    const node = ReactDOM.findDOMNode(this.messagesEnd);
+    debugger
+    if (node) {
+      node.scrollIntoView({behavior: "smooth"});
+    }
   }
 
   render () {
@@ -60,8 +70,10 @@ class CurrentConversation extends React.Component {
             </div>
             {this.props.messages.map((message, idx)=>{
               let className = message.sender_id === window.currentUser.id ? "bubble me" : "bubble you"
-              return <div className={className} key={idx}>{message.body}</div>
+              return <div className={className} key={idx}>{message.sender_name}: {message.body}</div>
             })}
+            <div style={ {float:"left", clear: "both"} }
+        ref={(el) => { this.messagesEnd = el; }}></div>
           </div>
 
           <div className="write">

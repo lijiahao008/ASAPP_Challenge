@@ -160,7 +160,7 @@
    text-overflow: ellipsis;
    color: #999;
  }
- .container .left .people .person.active, .container .left .people .person:hover {
+ .person:hover {
    margin-top: -1px;
    margin-left: -1px;
    padding-top: 13px;
@@ -169,7 +169,7 @@
    width: calc(100% + 2px);
    padding-left: calc(10% + 1px);
  }
- .container .left .people .person.active span, .container .left .people .person:hover span {
+ .person:hover span {
    color: #fff;
    background: transparent;
  }
