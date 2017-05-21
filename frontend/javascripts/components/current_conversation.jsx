@@ -48,6 +48,9 @@ class CurrentConversation extends React.Component {
   }
 
   render () {
+    if (this.props.loading) {
+      return <div>Loading...</div>
+    }
     return (
       <div className="right">
           <div className="top"><span>To: <span className="name">{this.props.recipients.join(", ")}</span></span></div>

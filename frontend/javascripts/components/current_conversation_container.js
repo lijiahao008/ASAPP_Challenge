@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   const messages = jQuery.isEmptyObject(state.current_conversation) ? [] : Object.keys(state.current_conversation.messages).map((id)=>(state.current_conversation.messages[id]))
   const recipients = state.current_conversation.recipients || []
   return {
+    loading: state.loading.loadingCurrentConversation,
     messages,
     conversationId: state.current_conversation.id,
     subject: state.current_conversation.subject,
