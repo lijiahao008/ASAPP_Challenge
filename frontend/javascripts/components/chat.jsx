@@ -15,7 +15,11 @@ class Chat extends React.Component {
   renderCurrentConversation(){
     if (jQuery.isEmptyObject(this.props.currentConversation) && !this.props.loadingCurrentConversation) {
       return <div className="right">
-                <div className="initial-page"><i className="fa fa-commenting-o" aria-hidden="true"></i><p>Click On Conversation To Open Live Chat</p></div></div>
+                <div className="initial-page">
+                  <i className="fa fa-commenting-o" aria-hidden="true"></i>
+                  <p>Click On Conversation To Open Live Chat</p>
+                </div>
+              </div>
     }
     else {
       return <CurrentConversationContainer pusher={this.pusher}/>
@@ -25,11 +29,11 @@ class Chat extends React.Component {
   render () {
     return (
       <div className="wrapper">
-    <div className="container">
-      <ConversationsContainer pusher={this.pusher}/>
-      {this.renderCurrentConversation()}
+        <div className="container">
+          <ConversationsContainer pusher={this.pusher}/>
+          {this.renderCurrentConversation()}
+        </div>
     </div>
-</div>
     );
   }
 }
