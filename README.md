@@ -1,24 +1,21 @@
-# README
+# Live Chat
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[SEE IT IN ACTION LIVE HERE!][asapp]
 
-Things you may want to cover:
+#### Libraries
 
-* Ruby version
+This project uses:
+- [React.js][React]
+- [Redux][Redux]
+- [Pusher][Pusher] for implementing websocket
+- [Mailboxer][mailboxer] for messaging feature
+- [Devise][devise] for authentication feature
 
-* System dependencies
 
-* Configuration
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[asapp]: https://asapp-challenge.herokuapp.com/
+[mailboxer]: https://github.com/mailboxer/mailboxer
+[React]:https://facebook.github.io/react/
+[Pusher]:https://pusher.com/
+[Redux]:http://redux.js.org/
+[devise]:https://github.com/plataformatec/devise
