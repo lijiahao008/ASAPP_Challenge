@@ -85,13 +85,15 @@ class CurrentConversation extends React.Component {
       <div className="right">
           <div className="top"><span>To: <span className="name">{this.props.recipients.join(", ")}</span></span></div>
           {this.renderConversation()}
-          <div className="write">
+          <form className="write"
+                onSubmit={this.handleSubmit}>
               <i className="fa fa-camera fa-fw" aria-hidden="true"></i>
               <input onChange={this.handleChange}
-              value={this.state.message} type='text' placeholder="Please type your message here"/>
+              value={this.state.message} type='text' placeholder="Please type your message here"
+              required />
               <i className="fa fa-smile-o fa-fw" aria-hidden="true"></i>
-              <i className="fa fa-paper-plane fa-fw" onClick={this.handleSubmit}></i>
-          </div>
+              <button type="submit" className="fa fa-paper-plane fa-fw"></button>
+          </form>
       </div>
     );
   }

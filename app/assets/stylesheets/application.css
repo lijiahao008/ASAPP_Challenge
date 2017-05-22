@@ -262,6 +262,14 @@
    font-family: 'Source Sans Pro', sans-serif;
    font-weight: 400;
  }
+ .fa-paper-plane {
+   border: none;
+   background: none;
+   color: grey;
+ }
+ .fa-paper-plane:active{
+   outline: none;
+ }
  .fa:hover {
    cursor: pointer;
    opacity: 0.7;
