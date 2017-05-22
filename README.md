@@ -11,7 +11,10 @@ This project uses:
 - [Mailboxer][mailboxer] for messaging feature
 - [Devise][devise] for authentication feature
 
-
+#### Todos
+- Typing indicator expires after 30 seconds
+- Search conversations
+- New conversation
 
 [asapp]: https://asapp-challenge.herokuapp.com/
 [mailboxer]: https://github.com/mailboxer/mailboxer
