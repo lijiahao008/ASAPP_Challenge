@@ -1,5 +1,8 @@
 # Live Chat
 
+![screen-shot]
+
+
 [SEE IT IN ACTION LIVE HERE!][asapp]
 
 #### Libraries
@@ -22,3 +25,6 @@ This project uses:
 [Pusher]:https://pusher.com/
 [Redux]:http://redux.js.org/
 [devise]:https://github.com/plataformatec/devise
+
+
+[screen-shot]: ./app/assets/images/screen-shot.png
