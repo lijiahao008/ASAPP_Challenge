@@ -4,6 +4,22 @@
   <%= button_to "Log out", destroy_user_session_path, :method => "delete" %>
   <div id="root"></div>
 <% else %>
-  <%= link_to "Log In", new_user_session_path %>
-  <%= link_to "Sign Up", new_user_registration_path %>
+  <%= form_for(:user, :url => session_path(:user)) do |f| %>
+    <%= f.text_field :email, value: "kate@fake.com", style: "display: none" %>
+    <%= f.password_field :password, value: "password", style: "display: none" %>
+    <%= f.submit 'Sign in as Kate' %>
+  <% end %>
+
+  <%= form_for(:user, :url => session_path(:user)) do |f| %>
+    <%= f.text_field :email, value: "bob@fake.com", style: "display: none" %>
+    <%= f.password_field :password, value: "password", style: "display: none" %>
+    <%= f.submit 'Sign in as Bob' %>
+  <% end %>
+
+  <%= form_for(:user, :url => session_path(:user)) do |f| %>
+    <%= f.text_field :email, value: "john@fake.com", style: "display: none" %>
+    <%= f.password_field :password, value: "password", style: "display: none" %>
+    <%= f.submit 'Sign in as John' %>
+  <% end %>
+
 <% end %>

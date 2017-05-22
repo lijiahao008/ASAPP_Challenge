@@ -53,7 +53,12 @@ class CurrentConversation extends React.Component {
   renderTypingIndicator(){
     return this.props.typingUsers.map((user) => {
       if (user.conversation_id === this.props.conversationId && user.user_id !== window.currentUser.id && user.typing) {
-        return <div key={user.user_id}><img src={user.user_pic} /> is typing...</div>
+        return <div className="bubble-wrapper" key={user.user_id}>
+                <img className="you" src={user.user_pic} />
+                <div className="bubble">
+                  <img src={window.images.typing}/>
+                </div>
+              </div>
       }
       }
     )
@@ -61,23 +66,22 @@ class CurrentConversation extends React.Component {
 
   renderConversation(){
     if (this.props.loading) {
-      return <div className="conversation-spinner"><img src={window.images.spinner} /></div>
+      return <div className="conversation-spinner"><img src={window.images.singleSpinner} /></div>
     }
     else {
       return <div className="chat">
-                  <div className="conversation-start">
-                      <span>Today, 6:48 AM</span>
-                  </div>
-                  {this.props.messages.map((message, idx)=>{
-                    let className = message.sender_id === window.currentUser.id ? "me" : "you"
-                    return <div className={"bubble-wrapper"}
-                      key={idx}><img
-                      className={className} src={message.sender_pic} /><div className={"bubble " + className}>{message.body}</div></div>
-                  })}
-                  {this.renderTypingIndicator()}
-                  <div style={ {float:"left", clear: "both"} }
+              {this.props.messages.map((message, idx)=>{
+                let className = message.sender_id === window.currentUser.id ? "me" : "you"
+                return <div className="bubble-wrapper" key={idx}>
+                          <img className={className} src={message.sender_pic} />
+                          <div className={"bubble " + className}>{message.body}</div>
+                        </div>
+                  })
+                }
+                {this.renderTypingIndicator()}
+                <div style={ {float:"left", clear: "both"} }
               ref={(el) => { this.messagesEnd = el; }}></div>
-                </div>
+            </div>
     }
   }
   render () {

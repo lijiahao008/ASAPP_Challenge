@@ -31,9 +31,9 @@ class Conversations extends React.Component {
       return <div className="conversations-spinner"><img src={window.images.spinner} /></div>
     }
     else {
-      return <ul className="people">
+      return <ul className="conversations">
           {this.props.conversations.map((conversation)=>{
-            let className="person " + (conversation.is_read ? "read" : "unread");
+            let className="conversation " + (conversation.is_read ? "read" : "unread");
             return <li key={conversation.id}
               className={className}
               onClick={(e)=>this.handleClick(e, conversation.id)}>

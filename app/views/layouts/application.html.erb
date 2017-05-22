@@ -14,7 +14,9 @@
         window.currentUser = <%= render("users/user.json.jbuilder", user: current_user).html_safe %>
       <% end %>
       window.images = {
-        spinner: "<%= image_path("spinner.gif") %>"
+        spinner: "<%= image_path("spinner.gif") %>",
+        typing: "<%= image_path("typing.gif") %>",
+        singleSpinner: "<%= image_path("single-spinner.gif") %>"
       }
     </script>
   </head>
