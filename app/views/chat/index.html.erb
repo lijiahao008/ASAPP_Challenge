@@ -1,25 +1,30 @@
 
 <% if user_signed_in? %>
-  <div>Signed in as <%= current_user.name %> </div>
-  <%= button_to "Log out", destroy_user_session_path, :method => "delete" %>
+  <div class="nav">
+    <div>Signed in as <%= current_user.name %> </div>
+    <%= button_to "Log out", destroy_user_session_path, :method => "delete", class: "btn" %>
+  </div>
   <div id="root"></div>
 <% else %>
-  <%= form_for(:user, :url => session_path(:user)) do |f| %>
-    <%= f.text_field :email, value: "kate@fake.com", style: "display: none" %>
-    <%= f.password_field :password, value: "password", style: "display: none" %>
-    <%= f.submit 'Sign in as Kate' %>
-  <% end %>
+  <div class="nav">
+    <%= form_for(:user, :url => session_path(:user)) do |f| %>
+      <%= f.text_field :email, value: "kate@fake.com", style: "display: none" %>
+      <%= f.password_field :password, value: "password", style: "display: none" %>
+      <div>
+        <%= f.submit 'Sign in as Kate', class: "btn" %>
+      </div>
+    <% end %>
 
-  <%= form_for(:user, :url => session_path(:user)) do |f| %>
-    <%= f.text_field :email, value: "bob@fake.com", style: "display: none" %>
-    <%= f.password_field :password, value: "password", style: "display: none" %>
-    <%= f.submit 'Sign in as Bob' %>
-  <% end %>
+    <%= form_for(:user, :url => session_path(:user)) do |f| %>
+      <%= f.text_field :email, value: "bob@fake.com", style: "display: none" %>
+      <%= f.password_field :password, value: "password", style: "display: none" %>
+      <%= f.submit 'Sign in as Bob', class: "btn" %>
+    <% end %>
 
-  <%= form_for(:user, :url => session_path(:user)) do |f| %>
-    <%= f.text_field :email, value: "john@fake.com", style: "display: none" %>
-    <%= f.password_field :password, value: "password", style: "display: none" %>
-    <%= f.submit 'Sign in as John' %>
-  <% end %>
-
+    <%= form_for(:user, :url => session_path(:user)) do |f| %>
+      <%= f.text_field :email, value: "john@fake.com", style: "display: none" %>
+      <%= f.password_field :password, value: "password", style: "display: none" %>
+      <%= f.submit 'Sign in as John', class: "btn" %>
+    <% end %>
+  </div>
 <% end %>
