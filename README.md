@@ -15,7 +15,6 @@ This project uses:
 - [Devise][devise] for authentication feature
 
 #### Todos
-- Typing indicator expires after 30 seconds
 - Search conversations
 - New conversation
 
