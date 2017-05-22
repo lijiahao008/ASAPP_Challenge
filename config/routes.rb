@@ -7,7 +7,10 @@ Rails.application.routes.draw do
       member do
         post :reply
         post :mark_as_read
+        get :start_typing
+        get :stop_typing
       end
     end
   end
+
 end

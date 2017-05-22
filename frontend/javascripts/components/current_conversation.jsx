@@ -13,6 +13,7 @@ class CurrentConversation extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.renderConversation = this.renderConversation.bind(this);
+    this.renderTypingIndicator = this.renderTypingIndicator.bind(this);
   }
 
   handleChange(e){
@@ -22,7 +23,7 @@ class CurrentConversation extends React.Component {
     }
     else {
       this.setState({message: e.target.value, typing: true});
-      // this.props.startTyping();
+      this.props.beginTyping(this.props.conversationId);
     }
   }
 
@@ -33,6 +34,7 @@ class CurrentConversation extends React.Component {
       conversationId: this.props.conversationId,
       body: this.state.message
     }
+    this.props.finishTyping(this.props.conversationId);
     this.props.sendMessage(message).then(()=>this.props.markAsRead(this.props.conversationId));
     this.setState({message: ""});
   }
@@ -46,6 +48,15 @@ class CurrentConversation extends React.Component {
     if (node) {
       node.scrollIntoView({behavior: "smooth"});
     }
+  }
+
+  renderTypingIndicator(){
+    return this.props.typingUsers.map((user) => {
+      if (user.conversation_id === this.props.conversationId && user.user_id !== window.currentUser.id && user.typing) {
+        return <div key={user.user_id}><img src={user.user_pic} /> is typing...</div>
+      }
+      }
+    )
   }
 
   renderConversation(){
@@ -63,6 +74,7 @@ class CurrentConversation extends React.Component {
                       key={idx}><img
                       className={className} src={message.sender_pic} /><div className={"bubble " + className}>{message.body}</div></div>
                   })}
+                  {this.renderTypingIndicator()}
                   <div style={ {float:"left", clear: "both"} }
               ref={(el) => { this.messagesEnd = el; }}></div>
                 </div>

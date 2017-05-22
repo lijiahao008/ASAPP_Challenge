@@ -1,6 +1,6 @@
 class Api::ConversationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_conversation, except: [:index]
+  before_action :get_conversation, except: [:index, :start_typing, :stop_typing]
 
 
   def index
@@ -25,7 +25,22 @@ class Api::ConversationsController < ApplicationController
     Pusher.trigger("conversation", 'message', {
       message: JSON.parse(render 'api/message/show')
     })
+  end
 
+  def start_typing
+    @conversation_id = params[:id].to_i
+    @typing = true
+    Pusher.trigger("conversation", 'typing', {
+      status: JSON.parse(render 'api/message/typing')
+    })
+  end
+
+  def stop_typing
+    @conversation_id = params[:id].to_i
+    @typing = false
+    Pusher.trigger("conversation", 'typing', {
+      status: JSON.parse(render 'api/message/typing')
+    })
   end
 
   private

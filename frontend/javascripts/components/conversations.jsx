@@ -9,7 +9,15 @@ class Conversations extends React.Component {
   }
 
   componentDidMount(){
-    this.props.fetchAllConversations().then(()=>this.pusher.subscribe(`conversation`).bind('message', (data) => {this.props.receiveMessage(data.message)}));
+    this.props.fetchAllConversations().then(
+      () =>{ this.pusher.subscribe(`conversation`).bind('message', (data) => {
+        this.props.receiveMessage(data.message)
+      });
+      this.pusher.subscribe(`conversation`).bind('typing', (data) =>{
+        this.props.startTyping(data.status)
+      })
+      }
+    );
   }
 
   handleClick(e, id){
