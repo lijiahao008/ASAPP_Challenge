@@ -40,6 +40,10 @@ class CurrentConversation extends React.Component {
   }
 
   componentDidUpdate(){
+    if (this.state.typing && this.state.message === "") {
+      this.setState({typing: false});
+      this.props.finishTyping(this.props.conversationId);
+    }
     this.scrollToBottom();
   }
 
@@ -58,7 +62,7 @@ class CurrentConversation extends React.Component {
                 <div className="bubble">
                   <img src={window.images.typing}/>
                 </div>
-              </div>
+                </div>
       }
       }
     )
