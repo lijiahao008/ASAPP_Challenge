@@ -1,6 +1,5 @@
 import { RECEIVE_ALL_CONVERSATIONS, MARK_AS_READ } from '../actions/conversation_actions';
 import { RECEIVE_MESSAGE } from '../actions/message_actions';
-import { getObject } from '../util/selectors';
 import merge from 'lodash/merge';
 
 const ConversationsReducer = (state = {}, action) => {
@@ -13,12 +12,11 @@ const ConversationsReducer = (state = {}, action) => {
       newState[action.id].is_read = true;
       return Object.assign({}, newState);
     case RECEIVE_MESSAGE:
-      const message = getObject(action.message);
-      const subject = newState[message.conversation_id].subject;
+      const message = action.message;
       delete newState[message.conversation_id]
       const newConversation = {[message.conversation_id] : {
         id: message.conversation_id,
-        subject,
+        subject: message.subject,
         last_message: message.body,
         last_sender_pic: message.sender_pic,
         updated_at: message.created_at
