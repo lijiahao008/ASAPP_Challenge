@@ -3,7 +3,7 @@ import { RECEIVE_MESSAGE } from '../actions/message_actions';
 import { getObject } from '../util/selectors';
 import merge from 'lodash/merge';
 
-const ConversationReducer = (state = {}, action) => {
+const ConversationsReducer = (state = {}, action) => {
   Object.freeze(state)
   let newState = merge({}, state);
   switch (action.type){
@@ -29,4 +29,4 @@ const ConversationReducer = (state = {}, action) => {
   }
 };
 
-export default ConversationReducer;
+export default ConversationsReducer;
