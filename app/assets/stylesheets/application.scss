@@ -28,6 +28,15 @@
    background: image-url("/assets/beach.jpg") no-repeat center center fixed;
    background-size: cover;
  }
+ ::-webkit-scrollbar-track
+  {
+    background: rgba(0, 0, 0, 0);
+  }
+
+  ::-webkit-scrollbar-thumb
+  {
+    background: rgba(0, 0, 0, 0.5);
+  }
  .nav {
    display: flex;
    justify-content: center;
