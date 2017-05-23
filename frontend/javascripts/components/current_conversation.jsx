@@ -62,7 +62,7 @@ class CurrentConversation extends React.Component {
                 <div className="bubble">
                   <img src={window.images.typing}/>
                 </div>
-                </div>
+              </div>
       }
       }
     )
@@ -77,9 +77,11 @@ class CurrentConversation extends React.Component {
               {this.props.messages.map((message, idx)=>{
                 let className = message.sender_id === window.currentUser.id ? "me" : "you"
                 return <div className="bubble-wrapper" key={idx}>
-                          <img className={className} src={message.sender_pic} />
-                          <div className={"bubble " + className}>{message.body}</div>
+                        <img className={className} src={message.sender_pic} />
+                        <div className={"bubble " + className}>
+                          {message.body}
                         </div>
+                      </div>
                   })
                 }
                 {this.renderTypingIndicator()}

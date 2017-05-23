@@ -3,11 +3,12 @@ import Conversations from './conversations';
 import { fetchAllConversations, fetchCurrentConversation,
 markAsRead } from '../actions/conversation_actions';
 import { receiveMessage, startTyping } from '../actions/message_actions';
+import { mapObjectToArray } from '../util/selectors';
 
 const mapStateToProps = (state, ownProps) => {
   return {
     loading: state.loading.loadingAllConversations,
-    conversations: Object.keys(state.conversations).map((id)=>(state.conversations[id]))
+    conversations: mapObjectToArray(state.conversations)
   }
 };
 

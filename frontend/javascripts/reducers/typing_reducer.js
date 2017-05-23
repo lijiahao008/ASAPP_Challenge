@@ -8,8 +8,7 @@ const TypingReducer = (state={}, action) => {
     case START_TYPING:
     case STOP_TYPING:
       let newState = state;
-      let status = action.status;
-      return merge({}, newState, {[status.user_id]: status});
+      return merge({}, newState, {[status.user_id]: action.status});
     default:
       return state;
   }

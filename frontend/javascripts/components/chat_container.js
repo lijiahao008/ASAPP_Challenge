@@ -1,4 +1,3 @@
-
 import { connect } from 'react-redux';
 import Chat from './chat';
 
@@ -8,6 +7,7 @@ const mapStateToProps = (state, ownProps) => {
     currentConversation: state.current_conversation
   }
 };
+
 export default connect(
   mapStateToProps,
   null

@@ -35,19 +35,26 @@ class Conversations extends React.Component {
           {this.props.conversations.map((conversation)=>{
             let className="conversation " + (conversation.is_read ? "read" : "unread");
             return <li key={conversation.id}
-              className={className}
-              onClick={(e)=>this.handleClick(e, conversation.id)}>
-              <img src={conversation.last_sender_pic} alt="" />
-              <span className="name">{conversation.subject}</span>
-              <span className="time">{conversation.updated_at.replace("less than", "").replace("about", "")}</span>
-              <span className="preview">{conversation.last_message}</span> </li>
-          })}
+                       className={className}
+                       onClick={(e)=>this.handleClick(e, conversation.id)}>
+                       <img src={conversation.last_sender_pic} alt="" />
+                       <span className="name">
+                         {conversation.subject}
+                       </span>
+                       <span className="time">
+                         {conversation.updated_at.replace("less than", "").replace("about", "")}
+                       </span>
+                       <span className="preview">
+                         {conversation.last_message}
+                       </span>
+                     </li>
+            })
+          }
         </ul>
       }
   }
 
   render () {
-
     return (
       <div className="left">
           <div className="top">

@@ -2,17 +2,21 @@ import { connect } from 'react-redux';
 import CurrentConversation from './current_conversation';
 import { sendMessage, receiveMessage, beginTyping, finishTyping } from '../actions/message_actions';
 import { markAsRead } from '../actions/conversation_actions';
+import { mapObjectToArray } from '../util/selectors';
 
 const mapStateToProps = (state, ownProps) => {
-  const messages = jQuery.isEmptyObject(state.current_conversation) ? [] : Object.keys(state.current_conversation.messages).map((id)=>(state.current_conversation.messages[id]))
+  const messages = jQuery.isEmptyObject(state.current_conversation) ? [] : mapObjectToArray(state.current_conversation.messages)
   const recipients = state.current_conversation.recipients || []
-  const typingUsers = Object.keys(state.typing).map((id)=>(state.typing[id]))
+  const typingUsers = mapObjectToArray(state.typing);
+  const loading = state.loading.loadingCurrentConversation;
+  const conversationId = state.current_conversation.id;
+  const subject = state.current_conversation.subject;
   return {
-    loading: state.loading.loadingCurrentConversation,
+    loading,
     typingUsers,
     messages,
-    conversationId: state.current_conversation.id,
-    subject: state.current_conversation.subject,
+    conversationId,
+    subject,
     recipients: recipients.map((recipient) => recipient.name)
   }
 };
