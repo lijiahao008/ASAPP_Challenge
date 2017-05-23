@@ -22,7 +22,6 @@
  body {
    background-color: #f8f8f8;
    -webkit-font-smoothing: antialiased;
-   text-rendering: optimizeLegibility;
    font-family: 'Source Sans Pro', sans-serif;
    font-weight: 400;
    background: image-url("/assets/beach.jpg") no-repeat center center fixed;
@@ -218,6 +217,7 @@
    display: none;
  }
  .unread {
+   border-left: 5px solid #2378ff;
    background: #c3d6f4;
  }
  .unread .time {
