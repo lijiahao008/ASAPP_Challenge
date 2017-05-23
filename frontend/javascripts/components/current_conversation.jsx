@@ -91,17 +91,27 @@ class CurrentConversation extends React.Component {
   render () {
     return (
       <div className="right">
-          <div className="top"><span>To: <span className="name">{this.props.recipients.join(", ")}</span></span></div>
-          {this.renderConversation()}
-          <form className="write"
-                onSubmit={this.handleSubmit}>
-              <i className="fa fa-camera fa-fw" aria-hidden="true"></i>
-              <input onChange={this.handleChange}
-              value={this.state.message} type='text' placeholder="Please type your message here"
-              required />
-              <i className="fa fa-smile-o fa-fw" aria-hidden="true"></i>
-              <button type="submit" className="fa fa-paper-plane fa-fw"></button>
-          </form>
+        <div className="top">
+          <span>Subject: <span className="name">
+            {this.props.subject}</span>
+          </span>
+        </div>
+        <div className="top">
+          <span>To: <span className="name">
+            {this.props.recipients.join(", ")}</span>
+          </span>
+        </div>
+        {this.renderConversation()}
+        <form className="write" onSubmit={this.handleSubmit}>
+          <i className="fa fa-camera fa-fw"></i>
+          <input onChange={this.handleChange}
+            value={this.state.message}
+            type='text'
+            placeholder="Please type your message here"
+            required />
+          <i className="fa fa-smile-o fa-fw"></i>
+          <button type="submit" className="fa fa-paper-plane fa-fw"></button>
+        </form>
       </div>
     );
   }
