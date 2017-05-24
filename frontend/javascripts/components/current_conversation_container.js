@@ -6,7 +6,7 @@ import { mapObjectToArray } from '../util/selectors';
 
 const mapStateToProps = (state, ownProps) => {
   const messages = jQuery.isEmptyObject(state.current_conversation) ? [] : mapObjectToArray(state.current_conversation.messages)
-  const recipients = state.current_conversation.recipients || []
+  const recipients = jQuery.isEmptyObject(state.current_conversation) ? [] : mapObjectToArray(state.current_conversation.recipients).map((recipient) => recipient.name);
   const typingUsers = mapObjectToArray(state.typing);
   const loading = state.loading.loadingCurrentConversation;
   const conversationId = state.current_conversation.id;
@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
     messages,
     conversationId,
     subject,
-    recipients: recipients.map((recipient) => recipient.name)
+    recipients
   }
 };
 
