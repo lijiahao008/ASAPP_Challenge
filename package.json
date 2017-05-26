@@ -3,15 +3,12 @@
   "version": "1.0.0",
   "description": "asapp_challenge",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "webpack"
   },
   "engines": {
-   "node": "6.3.0",
-   "npm": "3.10.3"
- },
- "scripts": {
-   "postinstall": "webpack"
- },
+    "node": "6.3.0",
+    "npm": "3.10.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lijiahao008/ASAPP_Challenge.git"
@@ -28,6 +25,8 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.1.18",
     "css-loader": "^0.28.0",
+    "emojione-picker": "^2.2.1",
+    "json-loader": "^0.5.4",
     "lodash": "^4.15.0",
     "moment": "*",
     "prop-types": "^15.5.0",
@@ -37,13 +36,10 @@
     "react-dates": "*",
     "react-dom": "^15.3.1",
     "react-dropzone": "^3.10.0",
-    "react-modal": "^1.6.5",
     "react-redux": "^4.4.5",
     "react-router": "3.0.4",
-    "react-select": "^1.0.0-rc.3",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "rheostat": "^2.1.0",
     "style-loader": "^0.16.1",
     "webpack": "^1.12.2"
   },

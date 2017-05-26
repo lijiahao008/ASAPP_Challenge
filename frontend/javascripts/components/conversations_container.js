@@ -6,9 +6,10 @@ import { receiveMessage, startTyping } from '../actions/message_actions';
 import { mapObjectToArray } from '../util/selectors';
 
 const mapStateToProps = (state, ownProps) => {
+  const conversations = mapObjectToArray(state.conversations);
   return {
     loading: state.loading.loadingAllConversations,
-    conversations: mapObjectToArray(state.conversations)
+    conversations
   }
 };
 

@@ -12,7 +12,7 @@ const ConversationsReducer = (state = {}, action) => {
       newState[action.id].is_read = true;
       return Object.assign({}, newState);
     case RECEIVE_MESSAGE:
-      const message = action.message;
+      const message = action.message.message;
       delete newState[message.conversation_id]
       const newConversation = {[message.conversation_id] : {
         id: message.conversation_id,

@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import EmojiPicker from 'emojione-picker';
+import 'emojione-picker/css/picker.css';
 
 class CurrentConversation extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       message: "",
-      typing: false
+      typing: false,
+      emojiOpen: false
     }
     this.pusher = this.props.pusher;
     this.handleChange = this.handleChange.bind(this);
@@ -14,6 +17,8 @@ class CurrentConversation extends React.Component {
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.renderConversation = this.renderConversation.bind(this);
     this.renderTypingIndicator = this.renderTypingIndicator.bind(this);
+    this.toggleEmoji = this.toggleEmoji.bind(this);
+    this.renderEmoji = this.renderEmoji.bind(this);
   }
 
   handleChange(e){
@@ -51,6 +56,24 @@ class CurrentConversation extends React.Component {
     const node = ReactDOM.findDOMNode(this.messagesEnd);
     if (node) {
       node.scrollIntoView({behavior: "smooth"});
+    }
+  }
+
+  toggleEmoji(){
+    if (this.state.emojiOpen) {
+      this.setState({emojiOpen: false})
+    }
+    else {
+      this.setState({emojiOpen: true})
+    }
+  }
+
+  renderEmoji(){
+    if (this.state.emojiOpen) {
+      return <EmojiPicker onChange={function(data){
+          console.log("Emoji chosen", data);
+        }}
+        search={true} />
     }
   }
 
@@ -110,10 +133,12 @@ class CurrentConversation extends React.Component {
             value={this.state.message}
             type='text'
             placeholder="Please type your message here"
+            onClick={()=> this.state.emojiOpen ? this.toggleEmoji() : null }
             required />
-          <i className="fa fa-smile-o fa-fw"></i>
+          <i className="fa fa-smile-o fa-fw" onClick={this.toggleEmoji}></i>
           <button type="submit" className="fa fa-paper-plane fa-fw"></button>
         </form>
+        {this.renderEmoji()}
       </div>
     );
   }

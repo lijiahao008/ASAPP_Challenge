@@ -354,3 +354,24 @@
    background-color: #eceff1;
    align-self: flex-end;
  }
+ .emoji-dialog {
+   display: table;
+   float: right;
+   bottom: 190px;
+   right: 85px;
+ }
+ .emoji-dialog .emojione {
+    width: 22px;
+}
+.emoji-dialog .emoji-row .emoji {
+    padding: 0px !important;
+    margin: 7px;
+    outline: none;
+}
+.emoji {
+  outline: none;
+}
+.emoji:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
