@@ -70,8 +70,9 @@ class CurrentConversation extends React.Component {
 
   renderEmoji(){
     if (this.state.emojiOpen) {
-      return <EmojiPicker onChange={function(data){
-          console.log("Emoji chosen", data);
+      return <EmojiPicker onChange={(data) => {
+          console.log(data);
+          this.setState({message: this.state.message += `&#x${data.unicode} `})
         }}
         search={true} />
     }
@@ -96,7 +97,7 @@ class CurrentConversation extends React.Component {
       return <div className="conversation-spinner"><img src={window.images.singleSpinner} /></div>
     }
     else {
-      return <div className="chat">
+      return <div className="chat" onClick={()=> this.state.emojiOpen ? this.toggleEmoji() : null }>
               {this.props.messages.map((message, idx)=>{
                 let className = message.sender_id === window.currentUser.id ? "me" : "you"
                 return <div className="bubble-wrapper" key={idx}>
