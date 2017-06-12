@@ -376,3 +376,26 @@
   cursor: pointer;
   opacity: 0.9;
 }
+
+.img-preview img{
+  border: 5px solid lightgrey;
+  border-radius: 10px;
+  object-fit: cover;
+  height: 200px;
+  width: auto;
+  position: relative;
+  bottom: 170px;
+  left: 50px;
+}
+
+.fa-times {
+  float: right;
+  bottom: 170px;
+  right: 100px;
+  z-index: 2;
+  position: relative;
+}
+
+.fa-times:hover {
+  cursor: pointer;
+}

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import EmojiPicker from 'emojione-picker';
 import 'emojione-picker/css/picker.css';
+import Dropzone from 'react-dropzone';
+
 
 class CurrentConversation extends React.Component {
   constructor(props){
@@ -9,6 +11,7 @@ class CurrentConversation extends React.Component {
     this.state = {
       message: "",
       typing: false,
+      img_preview_url: "",
       emojiOpen: false
     }
     this.pusher = this.props.pusher;
@@ -19,6 +22,9 @@ class CurrentConversation extends React.Component {
     this.renderTypingIndicator = this.renderTypingIndicator.bind(this);
     this.toggleEmoji = this.toggleEmoji.bind(this);
     this.renderEmoji = this.renderEmoji.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.renderImgPreview = this.renderImgPreview.bind(this);
+    this.closeImgPreview = this.closeImgPreview.bind(this);
   }
 
   handleChange(e){
@@ -37,11 +43,12 @@ class CurrentConversation extends React.Component {
     this.setState({typing: false});
     const message = {
       conversationId: this.props.conversationId,
-      body: this.state.message
+      body: this.state.message,
+      img_url: this.state.img_preview_url
     }
     this.props.finishTyping(this.props.conversationId);
     this.props.sendMessage(message).then(()=>this.props.markAsRead(this.props.conversationId));
-    this.setState({message: ""});
+    this.setState({message: "", img_preview_url: ""});
   }
 
   componentDidUpdate(){
@@ -78,6 +85,10 @@ class CurrentConversation extends React.Component {
     }
   }
 
+  onDrop(acceptedFiles, rejectedFiles){
+    this.setState({img_preview_url: acceptedFiles[0].preview})
+  }
+
   renderTypingIndicator(){
     return this.props.typingUsers.map((user) => {
       if (user.conversation_id === this.props.conversationId && user.user_id !== window.currentUser.id && user.typing) {
@@ -92,6 +103,16 @@ class CurrentConversation extends React.Component {
     )
   }
 
+  closeImgPreview(){
+    this.setState({img_preview_url: ""})
+  }
+
+  renderImgPreview(){
+    if (this.state.img_preview_url !== "") {
+      return <div className="img-preview">
+        <div className="close-img-preview"><i className="fa fa-times" onClick={this.closeImgPreview}></i></div><div><img src={this.state.img_preview_url}></img></div></div>
+    }
+  }
   renderConversation(){
     if (this.props.loading) {
       return <div className="conversation-spinner"><img src={window.images.singleSpinner} /></div>
@@ -100,6 +121,14 @@ class CurrentConversation extends React.Component {
       return <div className="chat" onClick={()=> this.state.emojiOpen ? this.toggleEmoji() : null }>
               {this.props.messages.map((message, idx)=>{
                 let className = message.sender_id === window.currentUser.id ? "me" : "you"
+                if (message.img_url) {
+                  return <div className="bubble-wrapper" key={idx}>
+                          <img className={className} src={message.sender_pic} />
+                          <div className={"bubble " + className}>
+                            <img src={message.img_url}></img>
+                          </div>
+                        </div>
+                }
                 return <div className="bubble-wrapper" key={idx}>
                         <img className={className} src={message.sender_pic} />
                         <div className={"bubble " + className}>
@@ -129,7 +158,11 @@ class CurrentConversation extends React.Component {
         </div>
         {this.renderConversation()}
         <form className="write" onSubmit={this.handleSubmit}>
-          <i className="fa fa-camera fa-fw"></i>
+          <Dropzone
+            onDrop={this.onDrop}
+            className="menu-dropzone">
+            <i className="fa fa-camera fa-fw"></i>
+          </Dropzone>
           <input onChange={this.handleChange}
             value={this.state.message}
             type='text'
@@ -139,6 +172,7 @@ class CurrentConversation extends React.Component {
           <i className="fa fa-smile-o fa-fw" onClick={this.toggleEmoji}></i>
           <button type="submit" className="fa fa-paper-plane fa-fw"></button>
         </form>
+        {this.renderImgPreview()}
         {this.renderEmoji()}
       </div>
     );
